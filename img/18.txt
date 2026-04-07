@@ -1,0 +1,62 @@
+(3) Summary list of requirements – Status & Notes
+
+#	Title										Status	Notes
+1	The game takes place on a map				OK	
+2	Battle scenarios								OK                           	
+3	Programmable Scenarios and Lanchester’s Laws	OK		Only Lanchester's law has been implemented. As the conditions of the law are not fully respected in the strategies, our curves do not exactly reflect the theoretical curve.
+4	Generals										OK	
+5	Automated battle tournament					OK	
+6	Mechanics, Units, and Structures				OK	
+7	Agile implementation							OK	
+8	No main menu: CLI							OK	
+9	Map visualisation: terminal					OK	
+10	Map visualisation: 2.5D						OK	
+11	Minimap (2.5D)								OK	
+12	Army visualisation							OK	
+13	Save and load								OK	
+14	Elevation									OK	
+15	Obstructions									NOK	
+
+Legend:		GREEN = Implemented;
+			YELLOW = Partially implemented;
+			RED = Not implemented.
+
+
+(4) Detailed descriptions of each member's contributions
+
+Member 1: BOUILLÉ Mathilde
+I worked on implementing units, particularly the hitbox without collision management. I also made a modest contribution to the implementation of Braindead. I mainly focused on creating a general AI ‘Commander’ that employs advanced strategies using the characteristics of the three types of units we implemented in this project.
+Since each unit has a unit against which it is weakest and strongest, I tried to exploit this mechanic in the different versions of the AI. I also attempted to implement other techniques regularly used in RTS games in order to counter Daft effectively.
+
+Member 2: BOUTMHDART Yasser
+I created a first version of Unit.py to retrieve and structure data from different units, which served as a starting point for the rest of the development. I also created graphs with Matplotlib to visualise this data, although this part evolved later on.
+I also helped Youssef set up the game saving and loading system. Finally, I implemented movement on the map with the minimap, allowing the player to move by clicking directly on it.
+
+Member 4: COTCHO Dèwanou Zadelein Patrice
+I worked on the design and implementation of several essential components of the project. I developed the reading and processing of CSV files containing unit statistics (statistics and bonuses). I then developed the Unit and Battle classes, in particular the run functionality, which manages the simulation loop, time, interactions and end conditions of a battle. I also designed and implemented various artificial intelligence strategies (Braindead, Daft and Smart), allowing for varied unit behaviour on the battlefield. I set up a system for logging battle information, accessible via the -d option.
+Visually, I contributed to the graphical interface, including the 2.5D map display, the minimap, and the representation of army information. I also implemented several user interactions, such as zooming in and out of the map (m and n keys), pausing the simulation (p) and the ability to leave a battle in progress (o). In addition, I implemented the programmable scenario based on Lanchester's law, navigation on the graphic map using the ZQSD keys, and terrain elevation management (k_Elevation). Finally, I added simulation acceleration using the left and right arrow keys and a collision management system between units to ensure realistic and consistent behaviour during movement.
+Outside of coding, I provided support to anyone who asked for it. I checked and tested whether each piece of code produced by the group met the stated requirements. If not, I alerted the team or made corrections if the changes were minor.
+
+Member 5: DE KERPEL-DA CRUZ Romain
+I was responsible for retrieving the statistics for the basic units that we needed to implement in the code, and I created the CSV file that allowed us to retrieve these statistics in the code. I was also responsible for the ScenarioMaker.py file, which allows for the creation and initial placement of units when battles are launched. I also helped Mathilde implement the Commander AI, notably by carrying out tests. I also translated and formatted some of the code.
+Outside of coding, I was responsible for taking notes during meetings, such as noting the list of tasks in progress, tasks to be assigned, etc., thus facilitating the organisation of the work.
+
+Member 6: DIALLO Mamadou Tanou
+I implemented the automated tournament engine that allows different AI strategies to compete over several rounds, complemented by a reporting module that generates statistical reports in HTML format to facilitate the analysis of results without going through the console. To meet real-time debugging needs, I developed the ‘Snapshot’ feature triggered by the ‘TAB’ key, which produces a detailed overview (positions, HP, orders) of each unit in HTML format at a given moment in time. The software structure was organised around the Battlefield class, which I also developed, centralising space management via a troop dictionary optimised for distance calculations, and the General class, serving as an interface between armies and strategies while ensuring the unique identification of participants. Finally, I worked on the main simulation loop (Battle.run) to ensure its compatibility with tournament mode. This optimisation allows calculations to be performed in the background by deactivating the Pygame graphical interface, thus speeding up intensive simulations while guaranteeing the integrity of the results. I was also involved in the architecture at the beginning of the project and set up the git environment for collaboration. 
+
+Member 7: FARJALLAH Youssef
+I was responsible for creating the save/load system that allows users to save the complete state of a battle in progress and restore it later. This feature is accessible via the F11 (quick save) and F12 (quick load) keyboard shortcuts. Everything is stored in the quick_save.json file by global state, by general and by unit. Yasser and I worked on this part together. He then took over to make the final changes to the save and load system.
+I also participated in the development of the DAFT AI, which adopts a tactic of gradual and direct advance towards the enemy. More specifically, I modified the existing code to make it compatible with the new architecture adopted during the project.
+
+I worked on the simulation's console display. This provides an interface that consumes fewer resources while still allowing users to observe the simulation as it runs. I also implemented the functionality to switch between the graphical version and the console display. Using the inventory of the various aspects covered in class and in the handouts, I highlighted the major issues in the middle of our project so that it would meet expectations, such as storing units in the battlefield and distributing tasks more fairly and appropriately according to each person's level, while improving group cohesion. I then adapted the Battle code and part of the General code, and also played a major role in cleaning, formatting and harmonising the code.
+Outside of coding, I researched and uploaded the game's sprites and backgrounds, as well as helping Mathilde and Romain progress in development and guiding them to find solutions to the problems they encountered in their tasks via the code sharing and tracking space, Replit.
+
+(5) Zero-sum scoring of each group member's contributions
+
+Members 						Score
+BOUILLÉ Mathilde				50
+BOUTMHDART Yasser			80
+COTCHO D. Z. Patrice			225
+DE KERPEL- -DA CRUZ Romain	45
+DIALLO Mamadou Tanou			160
+FARJALLAH Youssef			40

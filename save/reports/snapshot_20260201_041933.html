@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="fr">
+<head><meta charset="utf-8"><title>Snapshot — 2026-02-01 04:19:33</title>
+<style>
+:root{
+    --color-bg:#f4f6f8;
+    --card:#ffffff;
+    --border:#e2e8f0;
+    --text:#0f172a;
+    --accent:#2563eb;
+
+    --attack-bg:#fdecea;
+    --attack-border:#f5c7c7;
+    --move-bg:#ecfdf5;
+    --move-border:#cdeecf;
+    --idle-bg:#f8fafc;
+    --idle-border:#eceff3;
+}
+
+*{box-sizing:border-box}
+body{
+    margin:0;
+    padding:22px;
+    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:var(--color-bg);
+    color:var(--text);
+}
+
+/* Header */
+.header-box{
+    background:var(--card);
+    border:1px solid var(--border);
+    padding:16px 18px;
+    border-radius:8px;
+    margin-bottom:20px;
+}
+.header-box h1{
+    margin:0 0 6px 0;
+    font-size:1.25rem;
+    color:var(--accent);
+    font-weight:700;
+}
+.header-info{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
+.header-tag{background:#f8fafc;padding:6px 10px;border-radius:6px;border:1px solid var(--border);font-weight:600;}
+
+/* Controls */
+.controls{margin:14px 0;display:flex;gap:10px}
+button{background:var(--accent);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600}
+button.secondary{background:#ffffff;color:var(--text);border:1px solid var(--border)}
+
+/* Panels */
+.panel{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:18px}
+
+/* Unit traits grid */
+.traits-grid{display:flex;flex-wrap:wrap;gap:12px}
+.trait-card{flex:1 1 260px;min-width:220px;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:10px}
+.trait-card h4{margin:0 0 8px 0;font-size:1.02rem;color:var(--accent);padding-bottom:6px;border-bottom:1px solid var(--border)}
+
+/* General section */
+.general-section{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:18px}
+.general-title{font-weight:700;margin-bottom:10px}
+
+/* Unit types horizontally distributed */
+.unit-type-grid{display:flex;flex-wrap:wrap;gap:14px}
+.unit-type-block{flex:1 1 calc(33.333% - 14px);min-width:260px;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:10px}
+@media(max-width:1200px){.unit-type-block{flex:1 1 calc(50% - 14px)}}
+@media(max-width:800px){.unit-type-block{flex:1 1 100%}}
+
+/* Sub-category block */
+.sub-cat{border-radius:6px;padding:8px;border:1px solid var(--border);margin-bottom:10px}
+.sub-cat-title{font-weight:700;margin-bottom:8px}
+
+/* Category color helpers */
+.attack-bg{background:var(--attack-bg);border-color:var(--attack-border)}
+.move-bg{background:var(--move-bg);border-color:var(--move-border)}
+.idle-bg{background:var(--idle-bg);border-color:var(--idle-border)}
+
+/* Table alignment */
+.unit-detail-table{width:100%;border-collapse:collapse;font-size:0.95rem}
+.unit-detail-table th{background:#fbfdff;padding:8px;border-bottom:1px solid var(--border);text-align:left;color:var(--accent);font-weight:700}
+.unit-detail-table td{padding:8px;border-bottom:1px solid var(--border);vertical-align:top}
+
+/* Strong column widths for strict alignment */
+.unit-detail-table th:nth-child(1),
+.unit-detail-table td:nth-child(1){width:22%}
+.unit-detail-table th:nth-child(2),
+.unit-detail-table td:nth-child(2){width:14%;text-align:center}
+.unit-detail-table th:nth-child(3),
+.unit-detail-table td:nth-child(3){width:28%}
+.unit-detail-table th:nth-child(4),
+.unit-detail-table td:nth-child(4){width:36%}
+
+/* COLLAPSIBLE style B: ▸ / ▾ */
+details{border:1px solid var(--border);background:#ffffff;border-radius:6px;padding:8px;margin-bottom:10px}
+details>summary{list-style:none;cursor:pointer;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"▸";display:inline-block;margin-right:8px;font-size:0.95rem;transform:rotate(0);transition:transform 0.12s}
+details[open]>summary::before{content:"▾";transform:rotate(0)}
+</style>
+</head><body>
+<div class="header-box">
+    <h1>Snapshot — Rapport</h1>
+    <div class="header-info">
+        <div class="header-tag">Généré : 2026-02-01 04:19:33</div>
+        <div class="header-tag">Temps : Frame 60</div>
+        <div class="header-tag">Terrain : 120 × 120</div>
+    </div>
+</div>
+
+<div class="controls">
+    <button onclick="document.querySelectorAll('details').forEach(d=>d.open=true)">Déplier tout</button>
+    <button class="secondary" onclick="document.querySelectorAll('details').forEach(d=>d.open=false)">Replier tout</button>
+</div>
+
+<div class="panel">
+    <h2 style="margin-top:0;margin-bottom:8px">Traits des unités (exemplaires)</h2>
+    <div class="traits-grid">
+
+        <div class="trait-card">
+            <h4>Crossbowman</h4>
+            <div><strong>Attaque:</strong> 5</div>
+            <div><strong>Armure:</strong> 0</div>
+            <div><strong>Armure perçante:</strong> 0</div>
+            <div><strong>Portée:</strong> 5.0</div>
+            <div><strong>Vitesse:</strong> 1.0</div>
+        </div>
+
+        <div class="trait-card">
+            <h4>Knight</h4>
+            <div><strong>Attaque:</strong> 8</div>
+            <div><strong>Armure:</strong> 2</div>
+            <div><strong>Armure perçante:</strong> 2</div>
+            <div><strong>Portée:</strong> 0.01</div>
+            <div><strong>Vitesse:</strong> 1.4</div>
+        </div>
+
+        <div class="trait-card">
+            <h4>Pikeman</h4>
+            <div><strong>Attaque:</strong> 4</div>
+            <div><strong>Armure:</strong> 0</div>
+            <div><strong>Armure perçante:</strong> 0</div>
+            <div><strong>Portée:</strong> 0.01</div>
+            <div><strong>Vitesse:</strong> 1.0</div>
+        </div>
+</div></div>
+<div class="general-section">
+  <div class="general-title">General 1 — 30 unités</div>
+  <div class="unit-type-grid">
+
+    <div class="unit-type-block">
+      <details open>
+        <summary>Crossbowman</summary>
+        <!-- subcategories inside -->
+        
+            <details class="attack-bg">
+                <summary>Attaque — 0 unités</summary>
+                <div style="padding:8px 4px;color:var(--text)">Aucune unité</div>
+            </details>
+            
+        
+        <details class="move-bg" open>
+            <summary>Mouvement — 10 unités</summary>
+            <div class="sub-cat move-bg">
+                <div class="sub-cat-title">Mouvement — 10 unités</div>
+                <table class="unit-detail-table">
+                    <tr>
+                        <th>ID — Type</th>
+                        <th>HP</th>
+                        <th>Position</th>
+                        <th>Cible</th>
+                    </tr>
+                    
+        <tr>
+            <td>0 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(55.0, 51.3)</td>
+            <td>(55.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>1 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(56.0, 51.3)</td>
+            <td>(56.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>2 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(57.0, 51.3)</td>
+            <td>(57.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>3 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(58.0, 51.3)</td>
+            <td>(58.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>4 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(59.0, 51.3)</td>
+            <td>(59.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>5 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(60.0, 51.3)</td>
+            <td>(60.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>6 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(61.0, 51.3)</td>
+            <td>(61.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>7 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(62.0, 51.3)</td>
+            <td>(62.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>8 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(63.0, 51.3)</td>
+            <td>(63.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>9 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(64.0, 51.3)</td>
+            <td>(64.0, 61.2)</td>
+        </tr>
+        
+                </table>
+            </div>
+        </details>
+        
+        
+            <details class="idle-bg">
+                <summary>Idle / Divers — 0 unités</summary>
+                <div style="padding:8px 4px;color:var(--text)">Aucune unité</div>
+            </details>
+            
+      </details>
+    </div>
+
+    <div class="unit-type-block">
+      <details open>
+        <summary>Knight</summary>
+        <!-- subcategories inside -->
+        
+            <details class="attack-bg">
+                <summary>Attaque — 0 unités</summary>
+                <div style="padding:8px 4px;color:var(--text)">Aucune unité</div>
+            </details>
+            
+        
+        <details class="move-bg" open>
+            <summary>Mouvement — 10 unités</summary>
+            <div class="sub-cat move-bg">
+                <div class="sub-cat-title">Mouvement — 10 unités</div>
+                <table class="unit-detail-table">
+                    <tr>
+                        <th>ID — Type</th>
+                        <th>HP</th>
+                        <th>Position</th>
+                        <th>Cible</th>
+                    </tr>
+                    
+        <tr>
+            <td>40 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(55.0, 53.8)</td>
+            <td>(55.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>41 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(56.0, 53.8)</td>
+            <td>(56.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>42 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(57.0, 53.8)</td>
+            <td>(57.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>43 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(58.0, 53.8)</td>
+            <td>(58.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>44 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(59.0, 53.8)</td>
+            <td>(59.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>45 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(60.0, 53.8)</td>
+            <td>(60.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>46 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(61.0, 53.8)</td>
+            <td>(61.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>47 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(62.0, 53.8)</td>
+            <td>(62.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>48 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(63.0, 53.8)</td>
+            <td>(63.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>49 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(64.0, 53.8)</td>
+            <td>(64.0, 61.2)</td>
+        </tr>
+        
+                </table>
+            </div>
+        </details>
+        
+        
+            <details class="idle-bg">
+                <summary>Idle / Divers — 0 unités</summary>
+                <div style="padding:8px 4px;color:var(--text)">Aucune unité</div>
+            </details>
+            
+      </details>
+    </div>
+
+    <div class="unit-type-block">
+      <details open>
+        <summary>Pikeman</summary>
+        <!-- subcategories inside -->
+        
+            <details class="attack-bg">
+                <summary>Attaque — 0 unités</summary>
+                <div style="padding:8px 4px;color:var(--text)">Aucune unité</div>
+            </details>
+            
+        
+        <details class="move-bg" open>
+            <summary>Mouvement — 10 unités</summary>
+            <div class="sub-cat move-bg">
+                <div class="sub-cat-title">Mouvement — 10 unités</div>
+                <table class="unit-detail-table">
+                    <tr>
+                        <th>ID — Type</th>
+                        <th>HP</th>
+                        <th>Position</th>
+                        <th>Cible</th>
+                    </tr>
+                    
+        <tr>
+            <td>20 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(55.0, 52.3)</td>
+            <td>(55.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>21 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(56.0, 52.3)</td>
+            <td>(56.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>22 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(57.0, 52.3)</td>
+            <td>(57.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>23 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(58.0, 52.3)</td>
+            <td>(58.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>24 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(59.0, 52.3)</td>
+            <td>(59.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>25 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(60.0, 52.3)</td>
+            <td>(60.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>26 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(61.0, 52.3)</td>
+            <td>(61.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>27 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(62.0, 52.3)</td>
+            <td>(62.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>28 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(63.0, 52.3)</td>
+            <td>(63.0, 61.2)</td>
+        </tr>
+        
+        <tr>
+            <td>29 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(64.0, 52.3)</td>
+            <td>(64.0, 61.2)</td>
+        </tr>
+        
+                </table>
+            </div>
+        </details>
+        
+        
+            <details class="idle-bg">
+                <summary>Idle / Divers — 0 unités</summary>
+                <div style="padding:8px 4px;color:var(--text)">Aucune unité</div>
+            </details>
+            
+      </details>
+    </div>
+</div></div>
+<div class="general-section">
+  <div class="general-title">General 2 — 30 unités</div>
+  <div class="unit-type-grid">
+
+    <div class="unit-type-block">
+      <details open>
+        <summary>Crossbowman</summary>
+        <!-- subcategories inside -->
+        
+            <details class="attack-bg">
+                <summary>Attaque — 0 unités</summary>
+                <div style="padding:8px 4px;color:var(--text)">Aucune unité</div>
+            </details>
+            
+        
+        <details class="move-bg" open>
+            <summary>Mouvement — 10 unités</summary>
+            <div class="sub-cat move-bg">
+                <div class="sub-cat-title">Mouvement — 10 unités</div>
+                <table class="unit-detail-table">
+                    <tr>
+                        <th>ID — Type</th>
+                        <th>HP</th>
+                        <th>Position</th>
+                        <th>Cible</th>
+                    </tr>
+                    
+        <tr>
+            <td>1010 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(55.0, 63.7)</td>
+            <td>(55.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1011 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(56.0, 63.7)</td>
+            <td>(56.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1012 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(57.0, 63.7)</td>
+            <td>(57.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1013 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(58.0, 63.7)</td>
+            <td>(58.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1014 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(59.0, 63.7)</td>
+            <td>(59.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1015 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(60.0, 63.7)</td>
+            <td>(60.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1016 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(61.0, 63.7)</td>
+            <td>(61.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1017 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(62.0, 63.7)</td>
+            <td>(62.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1018 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(63.0, 63.7)</td>
+            <td>(63.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1019 — Crossbowman</td>
+            <td style="text-align:center">35/35</td>
+            <td>(64.0, 63.7)</td>
+            <td>(64.0, 53.8)</td>
+        </tr>
+        
+                </table>
+            </div>
+        </details>
+        
+        
+            <details class="idle-bg">
+                <summary>Idle / Divers — 0 unités</summary>
+                <div style="padding:8px 4px;color:var(--text)">Aucune unité</div>
+            </details>
+            
+      </details>
+    </div>
+
+    <div class="unit-type-block">
+      <details open>
+        <summary>Knight</summary>
+        <!-- subcategories inside -->
+        
+            <details class="attack-bg">
+                <summary>Attaque — 0 unités</summary>
+                <div style="padding:8px 4px;color:var(--text)">Aucune unité</div>
+            </details>
+            
+        
+        <details class="move-bg" open>
+            <summary>Mouvement — 10 unités</summary>
+            <div class="sub-cat move-bg">
+                <div class="sub-cat-title">Mouvement — 10 unités</div>
+                <table class="unit-detail-table">
+                    <tr>
+                        <th>ID — Type</th>
+                        <th>HP</th>
+                        <th>Position</th>
+                        <th>Cible</th>
+                    </tr>
+                    
+        <tr>
+            <td>1050 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(55.0, 61.2)</td>
+            <td>(55.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1051 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(56.0, 61.2)</td>
+            <td>(56.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1052 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(57.0, 61.2)</td>
+            <td>(57.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1053 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(58.0, 61.2)</td>
+            <td>(58.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1054 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(59.0, 61.2)</td>
+            <td>(59.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1055 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(60.0, 61.2)</td>
+            <td>(60.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1056 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(61.0, 61.2)</td>
+            <td>(61.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1057 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(62.0, 61.2)</td>
+            <td>(62.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1058 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(63.0, 61.2)</td>
+            <td>(63.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1059 — Knight</td>
+            <td style="text-align:center">100/100</td>
+            <td>(64.0, 61.2)</td>
+            <td>(64.0, 53.8)</td>
+        </tr>
+        
+                </table>
+            </div>
+        </details>
+        
+        
+            <details class="idle-bg">
+                <summary>Idle / Divers — 0 unités</summary>
+                <div style="padding:8px 4px;color:var(--text)">Aucune unité</div>
+            </details>
+            
+      </details>
+    </div>
+
+    <div class="unit-type-block">
+      <details open>
+        <summary>Pikeman</summary>
+        <!-- subcategories inside -->
+        
+            <details class="attack-bg">
+                <summary>Attaque — 0 unités</summary>
+                <div style="padding:8px 4px;color:var(--text)">Aucune unité</div>
+            </details>
+            
+        
+        <details class="move-bg" open>
+            <summary>Mouvement — 10 unités</summary>
+            <div class="sub-cat move-bg">
+                <div class="sub-cat-title">Mouvement — 10 unités</div>
+                <table class="unit-detail-table">
+                    <tr>
+                        <th>ID — Type</th>
+                        <th>HP</th>
+                        <th>Position</th>
+                        <th>Cible</th>
+                    </tr>
+                    
+        <tr>
+            <td>1030 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(55.0, 62.7)</td>
+            <td>(55.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1031 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(56.0, 62.7)</td>
+            <td>(56.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1032 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(57.0, 62.7)</td>
+            <td>(57.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1033 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(58.0, 62.7)</td>
+            <td>(58.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1034 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(59.0, 62.7)</td>
+            <td>(59.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1035 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(60.0, 62.7)</td>
+            <td>(60.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1036 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(61.0, 62.7)</td>
+            <td>(61.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1037 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(62.0, 62.7)</td>
+            <td>(62.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1038 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(63.0, 62.7)</td>
+            <td>(63.0, 53.8)</td>
+        </tr>
+        
+        <tr>
+            <td>1039 — Pikeman</td>
+            <td style="text-align:center">55/55</td>
+            <td>(64.0, 62.7)</td>
+            <td>(64.0, 53.8)</td>
+        </tr>
+        
+                </table>
+            </div>
+        </details>
+        
+        
+            <details class="idle-bg">
+                <summary>Idle / Divers — 0 unités</summary>
+                <div style="padding:8px 4px;color:var(--text)">Aucune unité</div>
+            </details>
+            
+      </details>
+    </div>
+</div></div></body></html>
