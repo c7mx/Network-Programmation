@@ -16,6 +16,8 @@ UNIT_RADIUS = 0.3
 
 RED = (255, 60, 60)
 BLUE = (60, 60, 255)
+GREEN = (0, 128, 0)
+YELLOW = (255,255,0)
 DARK = (30, 30, 30)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -51,10 +53,16 @@ STATS_BONUS_FILEPATH = "model/Stats_Bonus.csv"
 IMAGE_FILES = {
             "Knight_1": "../../img/Sprites/Knight/Red/right.png",
             "Knight_2": "../../img/Sprites/Knight/Blue/left.png",
+            "Knight_3": "../../img/Sprites/Knight/Green/right.png",
+            "Knight_4": "../../img/Sprites/Knight/Yellow/left.png",
             "Pikeman_1": "../../img/Sprites/Pikeman/Red/right.png",
             "Pikeman_2": "../../img/Sprites/Pikeman/Blue/left.png",
+            "Pikeman_3": "../../img/Sprites/Pikeman/Green/right.png",
+            "Pikeman_4": "../../img/Sprites/Pikeman/Yellow/left.png",
             "Crossbowman_1": "../../img/Sprites/Crossbowman/Red/right.png",
-            "Crossbowman_2": "../../img/Sprites/Crossbowman/Blue/left.png"
+            "Crossbowman_2": "../../img/Sprites/Crossbowman/Blue/left.png",
+            "Crossbowman_3": "../../img/Sprites/Crossbowman/Green/right.png",
+            "Crossbowman_4": "../../img/Sprites/Crossbowman/Yellow/left.png"
 }
 
 
