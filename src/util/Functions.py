@@ -93,6 +93,13 @@ def create_parser():
     run_p.add_argument('-d', '--datafile', help='Where to write data from that battle')
     run_p.add_argument('-p', '--plot', action='store_true', help='Plot unit number evolution at the end')
 
+    multi_p = subparsers.add_parser('multi', help='Initialisation d\'une IA pour le multi')
+
+    multi_p.add_argument('AI1', help='First AI name')
+    multi_p.add_argument('-t', '--terminal', action='store_true', help='Display output in terminal')
+    multi_p.add_argument('-d', '--datafile', help='Where to write data from that battle')
+    multi_p.add_argument('-p', '--plot', action='store_true', help='Plot unit number evolution at the end')
+
 
 
     load_p = subparsers.add_parser('load', help='Load a battle from a data file')
