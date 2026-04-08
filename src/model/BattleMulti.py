@@ -12,7 +12,7 @@ from view.GUI import GUI
 import time
 
 
-class Battle:
+class BattleMulti:
     """
     Controller for real-time battle simulations between two Generals.
 
