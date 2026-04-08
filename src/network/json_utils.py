@@ -1,11 +1,12 @@
 import json
 
-def create_json(uid, hp, x, y):
+def create_json(uid, hp, x, y, type=None):
     data = {
         "uid": uid,
         "hp": hp,
         "x": x,
-        "y": y   
+        "y": y,
+        "type" : type
     }
 
     msg = json.dumps(data)  # dict → string JSON
