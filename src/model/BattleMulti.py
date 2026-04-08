@@ -20,7 +20,7 @@ class BattleMulti:
     user input (GUI/Terminal), and statistical data collection.
 
     Attributes:
-        general1, general2 (General): The opposing commanders.
+        general (General): The opposing commanders.
         battlefield (Battlefield): The combat environment.
         view (View): Optional GUI or Console renderer.
         winner (General): Set once victory conditions are met.
@@ -28,13 +28,9 @@ class BattleMulti:
     """
 
 
-    def __init__(self, general1: General, general2: General, battlefield: Battlefield, view:View = None, datafile: str = None):
-        """
-        Initializes the battle environment, participants, and optional logger/view.
-        """
+    def __init__(self, general: General, battlefield: Battlefield, view:View = None, datafile: str = None):
         self.battlefield = battlefield
-        self.general1 = general1
-        self.general2 = general2
+        self.general = general
         self.winner = None
         self.paused = False
         self.collectStats = False
@@ -58,19 +54,6 @@ class BattleMulti:
     #                           MAIN SIMULATION
     # ===================================================================
     def start(self,is_tourney=False):
-        """
-        Executes the main simulation loop.
-
-        Handles:
-        1. Frame-rate timing (Pygame or sleep-based).
-        2. Input events and state updates for units/battlefield.
-        3. Victory, timeout, and stalemate detection.
-        4. Post-battle statistics plotting (if enabled).
-
-        Returns:
-            General: The winner of the battle, or None if a draw occurred.
-        """
-
         if self.view and hasattr(self.view, 'screen'):  # GUI has screen attribute
             # Pygame already initialized in GUI.__init__
             pass
@@ -87,8 +70,7 @@ class BattleMulti:
         max_frames = FPS * 600000 if not self.view else None  # 60 seconds default in headless
         frames = 0
 
-        prev_alive1 = self.general1.get_unit_alive_number(self.battlefield)
-        prev_alive2 = self.general2.get_unit_alive_number(self.battlefield)
+        prev_alive = self.general.get_unit_alive_number(self.battlefield)
         no_change_frames = 0
         max_no_change_frames = FPS * 50000  # 5 seconds of no-change => consider stalemate
 
@@ -115,23 +97,15 @@ class BattleMulti:
             if not self.paused and self.winner is None:
                 
                 for _ in range(self.speed):
-                    self.general1.play(self.battlefield)
+                    self.general.play(self.battlefield)
                     if self.logger:
-                        self.logger.log_info_from_general(self.general1, self.battlefield)
-
-                    self.general2.play(self.battlefield)
-                    if self.logger:
-                        self.logger.log_info_from_general(self.general2, self.battlefield)
+                        self.logger.log_info_from_general(self.general, self.battlefield)
 
                     self.battlefield.update(dt)
 
-                if self.general1.is_defeated(self.battlefield):
-                    self.winner = self.general2
+                if self.general.is_defeated(self.battlefield):
                     if self.view is None:
                         running = False
-                elif self.general2.is_defeated(self.battlefield):
-                    self.winner = self.general1
-                    if self.view is None:
                         running = False
 
                 if self.winner:
@@ -145,40 +119,10 @@ class BattleMulti:
                     if self.view:
                         self.view.set_winner(self.winner)
 
-                if is_tourney:
-                    if repr(self.general1.strategy) == repr(self.general2.strategy) and repr(self.general1.strategy) == "Braindead":
-                        print("Braindead VS Braindead. Declaring draw.")
-                        self.winner = None
-                        running = False
-                 # === Stalemate / timeout detection ===
-
-                    frames += 1
-                    # Check alive counts and detect lack of progress
-                    alive1 = self.general1.get_unit_alive_number(self.battlefield)
-                    alive2 = self.general2.get_unit_alive_number(self.battlefield)
-                    if alive1 == prev_alive1 and alive2 == prev_alive2:
-                        no_change_frames += 1
-                    else:
-                        no_change_frames = 0
-                        prev_alive1, prev_alive2 = alive1, alive2
-
-                        #If not change for a long time -> declare draw and stop
-                    if no_change_frames >= max_no_change_frames:
-                        print("Stalemate detected (no unit change). Declaring draw.")
-                        self.winner = None
-                        running = False
-
-                        # Absolute timeout in headless mode
-                    if max_frames is not None and frames >= max_frames:
-                        print("Match timeout reached. Declaring draw.")
-                        self.winner = None
-                        running = False
-
                 if self.collectStats:
                     i += 1
                     axis_x.append(i)
-                    axis_y[0].append(self.general1.get_unit_alive_number(self.battlefield))
-                    axis_y[1].append(self.general2.get_unit_alive_number(self.battlefield))
+                    axis_y[0].append(self.general.get_unit_alive_number(self.battlefield))
 
                 if self.view:
                     self.view.update()
@@ -200,40 +144,13 @@ class BattleMulti:
                             exit_loop = False
                 # Update screen of winner until user quit
                 self.view.update()
-
-        # ==================== Optional data visualization ====================
-        if self.collectStats:
-            plot(
-                axis_x,
-                axis_y,
-                "Battle Statistics",
-                "Time (frames)",
-                "Remaining Units",
-                [self.general1.strategy, self.general2.strategy],
-                show=True,
-                save_folder_path=PLOTS_FOLDER,
-            )
         return self.winner
 
 
-    def handle_event(self):
-        """
-        Processes user inputs and system events.
-        
-        Supported Keys:
-        - TAB: Generate HTML snapshot and pause.
-        - P: Toggle Pause.
-        - F11 / F12: Quick Save / Quick Load.
-        - F9: Switch to Console view.
-        - F1 / F4: Toggle UI info panels.
-        """
-        
+    def handle_event(self):    
         # Skip event handling if no GUI pygame
         if not self.view or not hasattr(self.view, 'screen'):
             return
-
-        # Instance Creation of reporter
-        reporter = GameSnapshotReporter(self.general1, self.general2, self.battlefield)
 
         keys = pygame.key.get_pressed()
 
@@ -243,53 +160,17 @@ class BattleMulti:
                 return True
 
             elif event.type == pygame.KEYDOWN:
-                #----------------------------------------- FOR TAB ----------------------------------------
-                if event.key == pygame.K_TAB:
-                    print("\nTAB détectée → snapshot + pause")
-                    self.paused = True
-                    if self.view:
-                        self.view.pause = True # Update view
-                    current_time_info = f"Frame {FPS}"
-
-                    file_path = reporter.generate_snapshot(current_time_info)
-                    webbrowser.open(f"file://{file_path}")
-                #------------------------------------- QUICK SAVE ----------------------------------------
-                elif event.key == pygame.K_F11:
-                    try:
-                        from util.SaveManager import SaveManager
-                        path = SaveManager.save_battlepass(self)
-                        print(f"\nQuick save written to {path}")
-                    except Exception as exc:
-                        print(f"\nQuick save failed: {exc}")
-                #------------------------------------- QUICK LOAD ----------------------------------------
-                elif event.key == pygame.K_F12:
-                    try:
-                        from util.SaveManager import SaveManager
-                        self._queued_battle = SaveManager.load_battle(view_factory=None)
-                        self.should_exit = True
-                        print("\nQuick load triggered...")
-                    except FileNotFoundError:
-                        print("\nNo quick save file found.")
-                    except Exception as exc:
-                        print(f"\nQuick load failed: {exc}")
-
-                #------------------------------------- PAUSE ------------------------------------------------
-                elif event.key == pygame.K_p:
+                #------------------------------------- PAUSE (P) ------------------------------------------------
+                if event.key == pygame.K_p:
                     self.paused = not self.paused
                     if self.view:
                         self.view.pause = self.paused
                         self.view.update()
-                #------------------------------------- QUIT (Q) ---------------------------------------------
+                #------------------------------------- QUIT (O) ---------------------------------------------
                 elif event.key == pygame.K_o:
                     pygame.quit()
                     exit()
-                #---------------------------------- SPEED UP / SLOW DOWN ------------------------------------------
-                elif event.key == pygame.K_RIGHT:
-                    self.speed += 1
-                elif event.key == pygame.K_LEFT:
-                    if self.speed > 1:
-                        self.speed -= 1
-                #---------------------------------- SWITCH VIEW (Q) ------------------------------------------
+                #---------------------------------- SWITCH VIEW (F9) ------------------------------------------
 
                 elif event.key == pygame.K_F9:
                     if isinstance (self.view, GUI):
@@ -298,7 +179,7 @@ class BattleMulti:
                         self.view = self.terminal_view
                     else:
                         pygame.display.quit()
-                        self.view = GUI(self.battlefield, [self.general1, self.general2], False)
+                        self.view = GUI(self.battlefield, [self.general], False)
 
         if keys[pygame.K_F1] and self.view:
             self.view.hide_info_pannel()
@@ -306,15 +187,14 @@ class BattleMulti:
             self.view.show_info_pannel()
 
     def _apply_loaded_battle(self, loaded_battle):
-        self.general1 = loaded_battle.general1
-        self.general2 = loaded_battle.general2
+        self.general = loaded_battle.general
         self.battlefield = loaded_battle.battlefield
         self.winner = None
         self.paused = loaded_battle.paused
         if self.view:
             self.view.battlefield = self.battlefield
             if hasattr(self.view, "generaux"):
-                self.view.generaux = [self.general1, self.general2]
+                self.view.generaux = [self.general]
             if hasattr(self.view, "winner"):
                 self.view.winner = None
             camera_state = getattr(loaded_battle, "camera_state", None)
