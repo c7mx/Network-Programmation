@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -71,25 +70,26 @@ int python_c_socket_recv(int port, struct sockaddr_in *serv_addr) {
 }
 
 
-int receive_data(int sock){
+int receive_data(int sock, char *data){
     int sockfd = sock;
 
     struct sockaddr_in cliaddr;
 	bzero(&cliaddr, sizeof(cliaddr));
 
-    char message[BUFLEN+1];
-    bzero(&message,BUFLEN+1);
+    bzero(data, BUFLEN + 1);
 
     int len = sizeof(cliaddr);
     ssize_t nbbytes;
 
     // recv the message
-    if ( (nbbytes = recvfrom(sockfd, message, BUFLEN , 0 , (struct sockaddr *) &cliaddr, (socklen_t *)&len)) < 0) {
+    if ( (nbbytes = recvfrom(sockfd, data, BUFLEN , 0 , (struct sockaddr *) &cliaddr, (socklen_t *)&len)) < 0) {
         stop("recvfrom()"); 
     }
 
-    printf("Recvfrom : %s\n", message);
+    printf("Recvfrom : %s\n", data);
     // printf("IP : %s, PORT : %d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
+
+    data[nbbytes] = '\0';
 
     close(sockfd);
     return EXIT_SUCCESS;
@@ -110,13 +110,14 @@ int send_data(int sock, struct sockaddr_in *serv_addr, char *data) {
 }
 
 int main(int argc, char *argv[]) {
-    // struct sockaddr_in serv_addr;
-    // int sock = python_c_socket_recv(C_PORT, &serv_addr);
-    // receive_data(sock);
-
-    int port = Py_PORT;
-    char *ip = HOST;
+    char data[BUFLEN + 1];
     struct sockaddr_in serv_addr;
-    int sockfd = python_c_socket_send(ip, port, &serv_addr);
-    send_data(sockfd, &serv_addr, "Mais non");
+    
+    int sock = python_c_socket_recv(C_PORT, &serv_addr);
+    receive_data(sock, data);
+
+    int sockfd = python_c_socket_send(HOST, Py_PORT, &serv_addr);
+    send_data(sockfd, &serv_addr, data);
+
+    return EXIT_SUCCESS;
 }
