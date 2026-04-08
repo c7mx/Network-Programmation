@@ -4,7 +4,7 @@ from util.UnitsFactory import UnitsFactory
 from util.Functions import create_strategy
 
 class ScenarioMaker:
-    def __init__(self, scenario, ia1Name, ia2Name):
+    def __init__(self, scenario, ia1Name, ia2Name=None):
         self.scenario = scenario
         self.ia1Name = ia1Name
         self.ia2Name = ia2Name
@@ -65,29 +65,30 @@ class ScenarioMaker:
         # 3. ARMED POSITION 2 (Mirror, to the right)
         # =========================================================
         # The starting point is: beginning of army 1 + its width + the empty space
-        start_col_army2 = start_col + total_cols_army1 + army_distance
-        
-        # For the mirror effect, army 2 must have its front on the LEFT of its block.
-        # We therefore reverse the order of placement (Knight first to face Knight 1).
-        mirror_order = list(reversed(unit_order)) 
-        
-        current_col_2 = start_col_army2
-        for unit_type in mirror_order:
-            nb_units = self.scenario.get(unit_type, 0)
-            if nb_units <= 0: continue
+        if self.ia2Name:
+            start_col_army2 = start_col + total_cols_army1 + army_distance
             
-            self.positions2[unit_type] = []
-            nb_cols = ceil(nb_units / unit_per_col)
-            unit_idx = 0
+            # For the mirror effect, army 2 must have its front on the LEFT of its block.
+            # We therefore reverse the order of placement (Knight first to face Knight 1).
+            mirror_order = list(reversed(unit_order)) 
             
-            for c in range(nb_cols):
-                # We are expanding to the right (+c)
-                col = current_col_2 + c
-                for r in range(unit_per_col):
-                    if unit_idx < nb_units:
-                        self.positions2[unit_type].append((start_line + r, col))
-                        unit_idx += 1
-            current_col_2 += nb_cols
+            current_col_2 = start_col_army2
+            for unit_type in mirror_order:
+                nb_units = self.scenario.get(unit_type, 0)
+                if nb_units <= 0: continue
+                
+                self.positions2[unit_type] = []
+                nb_cols = ceil(nb_units / unit_per_col)
+                unit_idx = 0
+                
+                for c in range(nb_cols):
+                    # We are expanding to the right (+c)
+                    col = current_col_2 + c
+                    for r in range(unit_per_col):
+                        if unit_idx < nb_units:
+                            self.positions2[unit_type].append((start_line + r, col))
+                            unit_idx += 1
+                current_col_2 += nb_cols
 
     def create_units(self):
         # Using a set to avoid duplicate technical keys
@@ -112,8 +113,14 @@ class ScenarioMaker:
 
     def create_generals(self):
         strat1 = create_strategy(self.ia1Name)
-        strat2 = create_strategy(self.ia2Name)
-        return General("General 1", 1, strat1), General("General 2", 2, strat2)
+        general1 = General("General1", 1, strat1)
+
+        general2 = None
+        if self.ia2Name:
+            strat2 = create_strategy(self.ia2Name)
+            general2 = General("General2", 2, strat2)
+
+        return general1, general2
 
     def get_data(self):
         return {"general1": self.general1, "general2": self.general2, "all_units": self.all_units}
