@@ -302,10 +302,20 @@ class GUI(View):
             # Pick side and color
             if i == 0:
                 base_x = margin
+                base_y = margin
                 color = (170, 40, 40)  # Red
             elif i == 1:
                 base_x = self.screen_w - banner_width - margin
+                base_y = margin
                 color = (40, 80, 180)  # Blue
+            elif i == 2:
+                base_x = margin
+                base_y = self.screen_h - banner_height - margin
+                color = (0,200,0) #Green
+            else :
+                base_x = self.screen_w - banner_width - margin
+                base_y = self.screen_h - banner_height - margin
+                color = (200,200,0) #Yellow
 
             # Animate
             self.banner_anim_progress[i] = min(1.0, self.banner_anim_progress[i] + self.banner_open_speed)
@@ -314,7 +324,7 @@ class GUI(View):
             self.draw_banner(
                 self.screen,
                 base_x,
-                margin,
+                base_y,
                 banner_width,
                 banner_height,
                 color,
@@ -324,7 +334,7 @@ class GUI(View):
             # Draw text only after banner partly opened
             if self.banner_anim_progress[i] > 0.4:
                 x = base_x + 20
-                y = margin + 10
+                y = base_y + 10
 
                 self.draw_text_shadow(self.screen, g.name + " : " + str(g.strategy), x, y, (255, 230, 200))
 
@@ -546,4 +556,5 @@ class GUI(View):
         """
         self.winner = winner_name
         self.pause = True
+
 
