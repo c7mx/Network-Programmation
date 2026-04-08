@@ -17,6 +17,8 @@ class Console(View):
         # Color codes ANSI
         self.COLOR_RED = "\033[91m"
         self.COLOR_BLUE = "\033[94m"
+        self.COLOR_GREEN = "\033[92m"  
+        self.COLOR_YELLOW = "\033[93m"
         self.COLOR_RESET = "\033[00m"
 
         # Unit priority: Knight > Pikeman > Crossbowman
@@ -68,7 +70,15 @@ class Console(View):
 
         symbol = next(unit['symbol'] for unit in units_list
                       if unit['name'] == unit_name and unit['id'] == camp_id)
-        color = self.COLOR_RED if unit['id'] // 1000 == 0 else self.COLOR_BLUE
+        if unit['id'] // 1000 == 0 :
+            color = self.COLOR_RED
+        elif unit['id'] // 1000 == 1 :
+            color = self.COLOR_BLUE 
+        elif unit['id'] // 1000 == 2 :
+            color = self.COLOR_GREEN 
+        else :
+            color = self.COLOR_YELLOW
+
 
         return symbol, color
 
@@ -146,3 +156,4 @@ class Console(View):
 
         if self.winner:
             self.set_winner(self.winner)
+
