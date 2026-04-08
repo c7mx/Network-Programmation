@@ -2,7 +2,7 @@ import pygame
 import os
 from model.Battlefield import Battlefield
 from Constant import (
-    ROWS, COLS, CELL_SIZE,RED, BLUE, DARK, GOLD, BLACK,
+    ROWS, COLS, CELL_SIZE,RED, BLUE,GREEN,YELLOW ,DARK, GOLD, BLACK,
     IMAGE_FILES, BANNER_HEIGHT, BACKGROUND, VIEW_ELEVATION
 )
 from view.View import View
@@ -151,8 +151,14 @@ class GUI(View):
             color =DARK
 
             # Use unit ID to determine team color
-            color = RED if unit.id < 1000 else BLUE
-
+            if unit.id < 1000 :
+                color = RED
+            elif unit.id < 2000 :
+                color = BLUE
+            elif unit.id < 3000 :
+                color = GREEN
+            else :
+                color = YELLOW
             if not unit.is_alive():
                 continue
 
@@ -292,12 +298,12 @@ class GUI(View):
         for i, g in enumerate(self.generaux[:2]):
 
 
-
+            # a modifer pour ajouter GREEN / YELLOW
             # Pick side and color
             if i == 0:
                 base_x = margin
                 color = (170, 40, 40)  # Red
-            else:
+            elif i == 1:
                 base_x = self.screen_w - banner_width - margin
                 color = (40, 80, 180)  # Blue
 
@@ -392,8 +398,14 @@ class GUI(View):
                 rel_x = ux - self.zoom_x
                 rel_y = uy - self.zoom_y
 
-                id = 1 if unit.id < 1000 else 2
-
+                if unit.id < 1000 :
+                    id = 1 
+                elif unit.id < 2000 :
+                    id = 2
+                elif unit.id < 3000 :
+                    id = 3
+                else :
+                    id = 4
                 key = f"{unit.name}_{id}"
                 if key in self.unit_images:
                     camera_surface.blit(
