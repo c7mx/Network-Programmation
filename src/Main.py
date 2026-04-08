@@ -2,6 +2,7 @@ from Constant import ROWS, COLS, VIEW_ELEVATION
 from util.ScenarioMaker import ScenarioMaker
 from model.Battlefield import Battlefield
 from model.Battle import Battle
+from model.BattleMulti import BattleMulti
 from scenario.Lanchester import Lanchester
 from view.GUI import GUI
 from view.Console import Console
@@ -37,6 +38,33 @@ if __name__ == '__main__':
             battle = Battle(general1, general2, battlefield, view, args.datafile)
         else:
             battle = Battle(general1, general2, battlefield, view)
+
+        if args.plot:
+            battle.collectStats = True
+
+        battle.start()
+
+    if args.command == 'multi':
+        print(f"Bataille avec l'IA {args.AI1}")
+
+        scenario_maker = ScenarioMaker(get_scenario(), args.AI1)
+        data = scenario_maker.get_data()
+
+        general1 = data.get("general1")
+        all_units = data.get("all_units")
+
+
+        battlefield = Battlefield(COLS, ROWS, all_units, generate_heightmap(COLS, ROWS))
+
+        if args.terminal:
+            view = Console(battlefield)
+        else:
+            view = GUI(battlefield, [general1], VIEW_ELEVATION)
+
+        if args.datafile:
+            battle = BattleMulti(general1, battlefield, view, args.datafile)
+        else:
+            battle = BattleMulti(general1, battlefield, view)
 
         if args.plot:
             battle.collectStats = True
