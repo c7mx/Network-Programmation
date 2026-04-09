@@ -7,8 +7,8 @@ from Constant import STATS_BONUS_FILEPATH, EPSILON, K_ELEVATION_H, K_ELEVATION_D
 from util.CSVLoader import CSVLoader
 
 
-BONUS_DAMAGE_MATRIX = CSVLoader().load_bonus_damage_matrix(STATS_BONUS_FILEPATH)
-BONUS_ARMOR_MATRIX = CSVLoader().load_bonus_armor_matrix(STATS_BONUS_FILEPATH)
+BONUS_DAMAGE_MATRIX = CSVLoader().load_bonus_armor_matrix(STATS_BONUS_FILEPATH)
+BONUS_AMOR_MATRIX = CSVLoader().load_bonus_damage_matrix(STATS_BONUS_FILEPATH)
 
 
 @dataclass
@@ -34,7 +34,6 @@ class Unit(ABC):
     current_order: str = None       # "move" or "attack"
     target_unit: "Unit" = None
     target_pos: tuple[float, float] = None
-    battlefield:Battlefield = None
     
     last_attacker: "Unit" = None    # Unit that last attacked this unit (for Braindead strategy)
 
@@ -226,7 +225,7 @@ class Unit(ABC):
         """
         base_damage = attacker.attack
         damage_bonus = BONUS_DAMAGE_MATRIX[attacker.name][defender.name]
-        armor_bonus = BONUS_ARMOR_MATRIX[defender.name][attacker.name]
+        armor_bonus = BONUS_DAMAGE_MATRIX[defender.name][attacker.name]
 
         if attacker.type_attack == "melee":
             armor_value = defender.armor
@@ -248,6 +247,6 @@ class Unit(ABC):
 
         return raw_damage
 
-    def __repr__(self):
-        """Return a readable summary of the unit for debugging."""
-        return f"{self.name} {self.id} ({self.hp}hp @ {self.position})"
+    #def __repr__(self):
+    #    """Return a readable summary of the unit for debugging."""
+    #    return f"{self.name} {self.id} ({self.hp}hp @ {self.position})"
