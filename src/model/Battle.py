@@ -253,25 +253,6 @@ class Battle:
 
                     file_path = reporter.generate_snapshot(current_time_info)
                     webbrowser.open(f"file://{file_path}")
-                #------------------------------------- QUICK SAVE ----------------------------------------
-                elif event.key == pygame.K_F11:
-                    try:
-                        from util.SaveManager import SaveManager
-                        path = SaveManager.save_battlepass(self)
-                        print(f"\nQuick save written to {path}")
-                    except Exception as exc:
-                        print(f"\nQuick save failed: {exc}")
-                #------------------------------------- QUICK LOAD ----------------------------------------
-                elif event.key == pygame.K_F12:
-                    try:
-                        from util.SaveManager import SaveManager
-                        self._queued_battle = SaveManager.load_battle(view_factory=None)
-                        self.should_exit = True
-                        print("\nQuick load triggered...")
-                    except FileNotFoundError:
-                        print("\nNo quick save file found.")
-                    except Exception as exc:
-                        print(f"\nQuick load failed: {exc}")
 
                 #------------------------------------- PAUSE ------------------------------------------------
                 elif event.key == pygame.K_p:
