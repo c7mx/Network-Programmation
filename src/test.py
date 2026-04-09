@@ -25,45 +25,68 @@ def depilement_liste(data_list):
         if data["type"] == 'K':
             data["name"] = "Knight"
             data["type_attack"]="Melee"
+            data["attack"] = 8
+            data["armor"] = 2
+            data["pierce_armor"] = 2
+            data["range"] = 0.01
+            data["line_of_sight"] = 4
+            data["speed"] = 1.35
+            data["attack_delay"] = None
+            data["reload_time"] = 1.8
+            data["accuracy"] = 1
         if data["type"] == 'C':
             data["name"] = "Crossbowman"
             data["type_attack"]="Pierce"
+            data["attack"] = 5
+            data["armor"] = 0
+            data["pierce_armor"] = 0
+            data["range"] = 5
+            data["line_of_sight"] = 7
+            data["speed"] = 0.96
+            data["attack_delay"] = None
+            data["reload_time"] = 5
+            data["accuracy"] = 0.85
+         
         if data["type"] == 'P':
             data["name"] = "Pikeman"
             data["type_attack"]="Melee"
-
-        data["attack"] = None
-        data["armor"] = None
-        data["pierce_armor"] = None
-        data["range"] = None
-        data["line_of_sight"] = None
-        data["speed"] = None
-        data["attack_delay"] = None
-        data["reload_time"] = None
-        data["accuracy"] = None
+            data["attack"] = 4
+            data["armor"] = 0
+            data["pierce_armor"] = 0
+            data["range"] = 0.01
+            data["line_of_sight"] = 4
+            data["speed"] = 1
+            data["attack_delay"] = None
+            data["reload_time"] = 3
+            data["accuracy"] = 1
+            
 
         uid = data["uid"]
 
-        # Création de l'unité avec les stats du fichier
-        battlefield[uid] = Unit(
-            data["uid"],
-            data["name"],
-            data["type"],
-            data["hp"],
-            data["type_attack"],
-            data["attack"],
-            data["armor"],
-            data["pierce_armor"],
-            data["range"],
-            data["line_of_sight"],
-            data["speed"],
-            data["attack_delay"],
-            data["reload_time"],
-            data["accuracy"],
-            (data["x"], data["y"])
-        )
+        if uid not in battlefield:
+            # Création de l'unité avec les stats du fichier
+            battlefield[uid] = Unit(
+                data["uid"],
+                data["name"],
+                data["type"],
+                data["hp"],
+                data["type_attack"],
+                data["attack"],
+                data["armor"],
+                data["pierce_armor"],
+                data["range"],
+                data["line_of_sight"],
+                data["speed"],
+                data["attack_delay"],
+                data["reload_time"],
+                data["accuracy"],
+                (data["x"], data["y"])
+            )
+        else:
+            battlefield[uid].hp = data["hp"]
+            battlefield[uid].position = (data["x"], data["y"])
+            
     print("\nBattlefield complet :", battlefield)
     return battlefield
 
 depilement_liste(data_list)
-
