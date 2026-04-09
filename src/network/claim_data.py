@@ -2,8 +2,8 @@ import network.comm_py_c as NetPy
 import network.json_utils as j
 
 full_data = []
+sock = NetPy.connect_sock_recv()
 while True:
-    sock = NetPy.connect_sock_recv()
     msg = NetPy.receive_data(sock)
 
     if msg:
