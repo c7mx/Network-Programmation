@@ -57,8 +57,8 @@ class Unit(ABC):
             self.target_pos = None
 
         # Network Part
-        sock = NetPy.connect_sock_send()
-        NetPy.send_data(sock, self.id, self.hp, self.position[0], self.position[1], type=None)
+        #sock = NetPy.connect_sock_send()
+        #NetPy.send_data(sock, self.id, self.hp, self.position[0], self.position[1], type=None)
 
     def set_order(self, order_type: str, target=None, target_pos=None):
         """Assign a new 'move' or 'attack' command with associated targets."""
@@ -167,8 +167,8 @@ class Unit(ABC):
         )
 
         # Network Part
-        sock = NetPy.connect_sock_send()
-        NetPy.send_data(sock, self.id, self.hp, self.position[0], self.position[1], type=None)
+        #sock = NetPy.connect_sock_send()
+        #NetPy.send_data(sock, self.id, self.hp, self.position[0], self.position[1], type=None)
 
         if self._try_move(right_pos):
             return
