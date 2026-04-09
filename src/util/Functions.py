@@ -100,26 +100,6 @@ def create_parser():
     multi_p.add_argument('-d', '--datafile', help='Where to write data from that battle')
     multi_p.add_argument('-p', '--plot', action='store_true', help='Plot unit number evolution at the end')
 
-
-
-    load_p = subparsers.add_parser('load', help='Load a battle from a data file')
-    load_p.add_argument('savefile', help='Path to data file')
-    load_p.add_argument('-g', '--gui', action='store_true', help='Display GUI when loading the save')
-
-    tourney_p = subparsers.add_parser('tourney', help='Run a tournament between multiple AIs')
-    tourney_p.add_argument('-G', nargs='+', required=True, help='List of AI names participating in the tournament')
-    tourney_p.add_argument('-S', '--scenarios', nargs='+', type=int, required=True, help='List of scenario ids to use in the tournament')
-    tourney_p.add_argument('-N', '--rounds', type=int, default=1, help='Number of rounds in the tournament')
-    tourney_p.add_argument('-na', '--not_alternating', action="store_true", help="for not alternating player position across N matches")
-
-    plot_p = subparsers.add_parser('plot', help="Run a programable scenario and plot result")
-    plot_p.add_argument('AI', help='AI name')
-    plot_p.add_argument('plotter', help='Plotter function name')
-    plot_p.add_argument('scenario', help='Scenario name')
-    plot_p.add_argument('units_type', help='List of units', type=str)
-    plot_p.add_argument('ranges', help='Range definition', type=str)
-    plot_p.add_argument('-N', '--rounds', type=int, default=1, help='Number of rounds for each matchup')
-
     return parser
 
 
