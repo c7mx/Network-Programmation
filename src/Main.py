@@ -6,7 +6,6 @@ from model.BattleMulti import BattleMulti
 from view.GUI import GUI
 from view.Console import Console
 from util.Functions import parse_units_list, parse_range, get_scenario, create_parser, generate_heightmap
-from util.SaveManager import SaveManager
 
 
 if __name__ == '__main__':
