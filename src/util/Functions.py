@@ -273,8 +273,8 @@ def readStatsFromFile(filepath: str):
                 "line_of_sight": int(parts[7]),
                 "speed": float(parts[8]),
                 "attack_Delay": float(parts[9]),
-                "reload_time": float(parts[10]),
-                "accuracy": float(parts[11])
+                "reload_time": float(parts[9]),
+                "accuracy": float(parts[10])
             }
     return stats
 
