@@ -46,18 +46,3 @@ python3 Main.py run Smart Daft -p
 python3 Main.py load <SAVEFILE> --gui
 python3 Main.py load save/quick_save.json --gui
 
-```
-
-### Run a tournament
-```bash
-python3 Main.py tourney [-G AI1 AI2 ...] [-S SCENARIO1 SCENARIO2 ...] [-N=10] [-na]
-python3 Main.py tourney -G Daft Smart -S 1 2 6 -N 3 -na
-
-```
-
-### Run a programmable scenario and plot results
-```bash
-python3 Main.py plot <AI> <PLOTTER> <SCENARIO> "[UnitType,...]" "<RangeExpression>" [-N ROUNDS]
-python3 Main.py plot Daft PlotLanchester Lanchester "[Knight, Pikeman]" "range(1,100)"
-
-```
