@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 import math
 from model.Battlefield import Battlefield
+import network.comm_py_c as NetPy
 import random
 from Constant import STATS_BONUS_FILEPATH, EPSILON, K_ELEVATION_H, K_ELEVATION_D
 from util.CSVLoader import CSVLoader
@@ -54,6 +55,10 @@ class Unit(ABC):
             self.current_order = None
             self.target_unit = None
             self.target_pos = None
+
+        # Network Part
+        sock = NetPy.connect_sock_send()
+        NetPy.send_data(sock, self.id, self.hp, self.position[0], self.position[1], type=None)
 
     def set_order(self, order_type: str, target=None, target_pos=None):
         """Assign a new 'move' or 'attack' command with associated targets."""
@@ -160,6 +165,10 @@ class Unit(ABC):
             x - perp_x * side_step,
             y - perp_y * side_step
         )
+
+        # Network Part
+        sock = NetPy.connect_sock_send()
+        NetPy.send_data(sock, self.id, self.hp, self.position[0], self.position[1], type=None)
 
         if self._try_move(right_pos):
             return
