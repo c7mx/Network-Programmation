@@ -7,8 +7,8 @@ from Constant import STATS_BONUS_FILEPATH, EPSILON, K_ELEVATION_H, K_ELEVATION_D
 from util.CSVLoader import CSVLoader
 
 
-BONUS_DAMAGE_MATRIX = CSVLoader().load_bonus_armor_matrix(STATS_BONUS_FILEPATH)
-BONUS_ARMOR_MATRIX = CSVLoader().load_bonus_damage_matrix(STATS_BONUS_FILEPATH)
+BONUS_DAMAGE_MATRIX = CSVLoader().load_bonus_damage_matrix(STATS_BONUS_FILEPATH)
+BONUS_ARMOR_MATRIX = CSVLoader().load_bonus_armor_matrix(STATS_BONUS_FILEPATH)
 
 
 @dataclass
