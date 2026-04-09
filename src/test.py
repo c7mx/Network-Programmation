@@ -1,4 +1,7 @@
 import json
+from model.Unit import Unit
+
+
 data_list = [
     '{"uid": 1999, "hp": 32, "x": 40, "y": 50, "type": "P"}',
     '{"uid": 1324, "hp": 78, "x": -12, "y": 34, "type": "K"}',
@@ -12,7 +15,6 @@ data_list = [
     '{"uid": 1999, "hp": 36, "x": 40, "y": 50, "type": "P"}',
     '{"uid": 1107, "hp": 99, "x": -50, "y": -1, "type": "K"}'
 ]
-
 battlefield = {}
 
 def depilement_liste(data_list):
@@ -21,25 +23,47 @@ def depilement_liste(data_list):
 
         data = json.loads(element)
         if data["type"] == 'K':
-            data["type"] = "Knight"
+            data["name"] = "Knight"
             data["type_attack"]="Melee"
         if data["type"] == 'C':
-            data["type"] = "Crossbowman"
+            data["name"] = "Crossbowman"
             data["type_attack"]="Pierce"
         if data["type"] == 'P':
-            data["type"] = "Pikeman"
+            data["name"] = "Pikeman"
             data["type_attack"]="Melee"
+
+        data["attack"] = None
+        data["armor"] = None
+        data["pierce_armor"] = None
+        data["range"] = None
+        data["line_of_sight"] = None
+        data["speed"] = None
+        data["attack_delay"] = None
+        data["reload_time"] = None
+        data["accuracy"] = None
 
         uid = data["uid"]
 
-        battlefield[uid] = (
+        # Création de l'unité avec les stats du fichier
+        battlefield[uid] = Unit(
+            data["uid"],
+            data["name"],
             data["type"],
             data["hp"],
             data["type_attack"],
+            data["attack"],
+            data["armor"],
+            data["pierce_armor"],
+            data["range"],
+            data["line_of_sight"],
+            data["speed"],
+            data["attack_delay"],
+            data["reload_time"],
+            data["accuracy"],
             (data["x"], data["y"])
         )
-        print("UPDATE/ADD :", uid, battlefield[uid])
-
     print("\nBattlefield complet :", battlefield)
+    return battlefield
 
 depilement_liste(data_list)
+
