@@ -27,6 +27,13 @@ The system is designed as an experimental platform to compare AI behaviors under
 
 Make sure you are in the `src` directory and use one of the following commands:
 
+### Test a multi battle
+```bash
+python3 Main.py multi <AI1> 
+python3 Main.py multi Smart
+
+```
+
 ### Run a single battle
 ```bash
 python3 Main.py run <AI1> <AI2> [-t] [-d DATAFILE] [-p]
