@@ -1,6 +1,6 @@
 import socket
 import select
-import json_utils as j
+import network.json_utils as j
 
 C_HOST = "127.0.0.1"
 C_PORT = 1040
