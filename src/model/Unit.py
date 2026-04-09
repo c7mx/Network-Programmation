@@ -226,7 +226,7 @@ class Unit(ABC):
         """
         base_damage = attacker.attack
         damage_bonus = BONUS_DAMAGE_MATRIX[attacker.name][defender.name]
-        armor_bonus = BONUS_DAMAGE_MATRIX[defender.name][attacker.name]
+        armor_bonus = BONUS_ARMOR_MATRIX[defender.name][attacker.name]
 
         if attacker.type_attack == "melee":
             armor_value = defender.armor
