@@ -13,40 +13,33 @@ data_list = [
     '{"uid": 1107, "hp": 99, "x": -50, "y": -1, "type": "K"}'
 ]
 
-
-battlefield = []
+battlefield = {}
 
 def depilement_liste(data_list):
     while data_list:
-        element = data_list.pop()
+        element = data_list.pop(0)
 
         data = json.loads(element)
         if data["type"] == 'K':
             data["type"] = "Knight"
+            data["type_attack"]="Melee"
         if data["type"] == 'C':
             data["type"] = "Crossbowman"
+            data["type_attack"]="Pierce"
         if data["type"] == 'P':
             data["type"] = "Pikeman"
+            data["type_attack"]="Melee"
 
-        for i, unit in enumerate(battlefield):
-            if unit[1] == data["uid"]:
-                battlefield[i] = (
-                    data["type"],
-                    data["hp"],
-                    (data["x"], data["y"])
-                )
-                print("UPDATE :", battlefield[i])
-                break
-    
+        uid = data["uid"]
 
-        else:
-            battlefield.append((
-                data["type"],
-                data["uid"],
-                data["hp"],
-                (data["x"], data["y"])
-            ))
+        battlefield[uid] = (
+            data["type"],
+            data["hp"],
+            data["type_attack"],
+            (data["x"], data["y"])
+        )
+        print("UPDATE/ADD :", uid, battlefield[uid])
 
-    print(battlefield)
+    print("\nBattlefield complet :", battlefield)
 
 depilement_liste(data_list)
