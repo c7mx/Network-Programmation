@@ -40,14 +40,14 @@ def receive_data(sock):
 # data = j.create_json(0, 100, 10, 10)
 # send_data(data, sock)
 
-sock = connect_sock_recv()
+# sock = connect_sock_recv()
 
-while True:
-    msg = receive_data(sock)
+# while True:
+#     msg = receive_data(sock)
 
-    if msg:
-        data = j.load_json(msg)
-        print(data)
-        print(data["uid"])
+#     if msg:
+#         data = j.load_json(msg)
+#         print(data)
+#         print(data["uid"])
 
 
