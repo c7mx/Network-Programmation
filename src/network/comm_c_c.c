@@ -12,24 +12,15 @@
 
 /* --- CONFIGURATION DES PORTS ET TIMEOUTS --- */
 #define PY_HOST         "127.0.0.1"
-#define PY_PORT         1030    // C envoie vers Python ici [cite: 146]
-#define C_PORT          1040    // C écoute Python ici [cite: 146]
-#define LAN_PORT        4950    // Port de communication P2P entre joueurs [cite: 81]
-#define BUFLEN          512     // Taille max des messages [cite: 88]
+#define PY_PORT         1030    // C envoie vers Python ici
+#define C_PORT          1040    // C écoute Python ici
+#define LAN_PORT        4950    // Port de communication P2P entre joueurs
+#define BUFLEN          1024    // Taille augmentée pour les chaînes JSON
 
 #define MSG_ANNONCE     "ANNONCE"
-#define INTERVALLE_ANN  5       // Fréquence d'annonce (secondes) [cite: 157]
-#define TIMEOUT_MACHINE 15      // Temps avant de supprimer un pair [cite: 161]
+#define INTERVALLE_ANN  5       // Fréquence d'annonce (secondes)
+#define TIMEOUT_MACHINE 15      // Temps avant de supprimer un pair
 #define MAX_PAIRS       20
-
-/* Structure packée pour garantir la cohérence entre machines [cite: 13, 51] */
-typedef struct __attribute__((packed)) {
-    int uid;
-    int pv;
-    int x;
-    int y;
-    int etat;
-} PaquetDonnees;
 
 typedef struct {
     char ip[INET_ADDRSTRLEN];
@@ -43,19 +34,22 @@ char mon_ip_reelle[INET_ADDRSTRLEN];
 
 /* --- FONCTIONS DE GESTION DU RÉSEAU --- */
 
-// Nettoie les pairs inactifs (Gestion de la présence) [cite: 161]
+// Nettoie các pairs inactifs (Gestion de la présence)
 void nettoyer_liste_machines() {
     time_t maintenant = time(NULL);
     for (int i = 0; i < nb_machines; i++) {
         if (maintenant - liste_machines[i].derniere_activite > TIMEOUT_MACHINE) {
             printf("[SYSTÈME] Pair déconnecté : %s\n", liste_machines[i].ip);
-            for (int j = i; j < nb_machines - 1; j++) liste_machines[j] = liste_machines[j+1];
-            nb_machines--; i--;
+            for (int j = i; j < nb_machines - 1; j++) {
+                liste_machines[j] = liste_machines[j+1];
+            }
+            nb_machines--; 
+            i--;
         }
     }
 }
 
-// Détecte l'IP LAN pour éviter de traiter ses propres messages [cite: 157]
+// Détecte l'IP LAN pour éviter de traiter ses propres messages
 void detecter_mon_ip_lan() {
     int s = socket(AF_INET, SOCK_DGRAM, 0);
     struct sockaddr_in serv;
@@ -71,7 +65,7 @@ void detecter_mon_ip_lan() {
     close(s);
 }
 
-// Mise à jour de la liste des pairs (P2P sans serveur) 
+// Mise à jour de la liste des pairs (P2P sans serveur)
 void mettre_a_jour_liste(char *ip_recu) {
     if (strcmp(ip_recu, mon_ip_reelle) == 0) return; 
     for (int i = 0; i < nb_machines; i++) {
@@ -99,19 +93,19 @@ int main() {
     int oui = 1;
 
     detecter_mon_ip_lan();
-    printf("[INFO] Processus réseau démarré sur l'IP : %s\n", mon_ip_reelle);
+    printf("[INFO] Passerelle réseau démarrée sur l'IP : %s\n", mon_ip_reelle);
 
-    // 1. Socket LAN (Communication P2P externe) [cite: 147]
+    // 1. Socket LAN (Communication P2P externe)
     sock_lan = socket(AF_INET, SOCK_DGRAM, 0);
     setsockopt(sock_lan, SOL_SOCKET, SO_REUSEADDR, &oui, sizeof(int));
-    setsockopt(sock_lan, SOL_SOCKET, SO_BROADCAST, &oui, sizeof(int)); // Autorise le broadcast [cite: 157]
+    setsockopt(sock_lan, SOL_SOCKET, SO_BROADCAST, &oui, sizeof(int));
     memset(&addr_lan, 0, sizeof(addr_lan));
     addr_lan.sin_family = AF_INET;
     addr_lan.sin_port = htons(LAN_PORT);
     addr_lan.sin_addr.s_addr = INADDR_ANY;
     bind(sock_lan, (struct sockaddr *)&addr_lan, sizeof(addr_lan));
 
-    // 2. Socket IPC (Communication locale avec Python) [cite: 146]
+    // 2. Socket IPC (Communication locale avec Python)
     sock_ipc = socket(AF_INET, SOCK_DGRAM, 0);
     memset(&addr_ipc, 0, sizeof(addr_ipc));
     addr_ipc.sin_family = AF_INET;
@@ -131,7 +125,7 @@ int main() {
     addr_broadcast.sin_port = htons(LAN_PORT);
     addr_broadcast.sin_addr.s_addr = inet_addr("255.255.255.255");
 
-    printf("--- PASSERELLE C PRÊTE (PORT LAN:%d, IPC:%d) ---\n", LAN_PORT, C_PORT);
+    printf("--- PASSERELLE C PRÊTE (LAN:%d, IPC:%d) ---\n", LAN_PORT, C_PORT);
 
     while(1) {
         FD_ZERO(&ensemble_fds);
@@ -142,14 +136,14 @@ int main() {
         delai.tv_sec = INTERVALLE_ANN;
         delai.tv_usec = 0;
 
-        // select() gère la concurrence entre IA locale et adversaires distants 
+        // select() gère la concurrence entre IA locale et adversaires distants
         int activite = select(max_fd + 1, &ensemble_fds, NULL, NULL, &delai);
 
-        // --- CAS 1 : L'IA LOCALE AGIT (Python -> LAN) [cite: 9, 158] ---
+        // --- CAS 1 : L'IA LOCALE AGIT (Python -> LAN) ---
         if (activite > 0 && FD_ISSET(sock_ipc, &ensemble_fds)) {
             int n = recvfrom(sock_ipc, tampon, BUFLEN - 1, 0, NULL, NULL);
             if (n > 0) {
-                // Diffusion de l'action à tous les pairs connus (Best-effort) 
+                tampon[n] = '\0'; // Sécurité pour la chaîne de caractères
                 for (int i = 0; i < nb_machines; i++) {
                     struct sockaddr_in dest;
                     dest.sin_family = AF_INET;
@@ -157,11 +151,11 @@ int main() {
                     dest.sin_addr.s_addr = inet_addr(liste_machines[i].ip);
                     sendto(sock_lan, tampon, n, 0, (struct sockaddr *)&dest, sizeof(dest));
                 }
-                printf("[ACTION] IA locale relayée vers le réseau LAN.\n");
+                printf("[TO LAN] JSON local relayé vers le réseau.\n");
             }
         }
 
-        // --- CAS 2 : UN ADVERSAIRE AGIT (LAN -> Python) [cite: 11, 159, 162] ---
+        // --- CAS 2 : UN ADVERSAIRE AGIT (LAN -> Python) ---
         else if (activite > 0 && FD_ISSET(sock_lan, &ensemble_fds)) {
             struct sockaddr_in addr_dist;
             socklen_t len = sizeof(addr_dist);
@@ -172,18 +166,18 @@ int main() {
                 inet_ntop(AF_INET, &(addr_dist.sin_addr), ip_exp, INET_ADDRSTRLEN);
 
                 if (n >= 7 && strncmp(tampon, MSG_ANNONCE, 7) == 0) {
-                    mettre_a_jour_liste(ip_exp); // Découverte automatique [cite: 157, 160]
+                    mettre_a_jour_liste(ip_exp);
                 } else {
-                    // Transfert immédiat à l'IA locale pour mise à jour de la scène [cite: 159]
+                    tampon[n] = '\0'; // Important pour le décodage Python
                     sendto(sock_ipc, tampon, n, 0, (struct sockaddr *)&addr_py, sizeof(addr_py));
-                    printf("[P2P] Mise à jour reçue de %s -> Python.\n", ip_exp);
+                    printf("[P2P] Données reçues de %s -> Python.\n", ip_exp);
                 }
             }
         }
 
-        // --- CAS 3 : ANNONCE DE PRÉSENCE (Maintenance) [cite: 157, 160] ---
+        // --- CAS 3 : ANNONCE ET MAINTENANCE ---
         else if (activite == 0) {
-            nettoyer_liste_machines();
+            nettoyer_liste_machines(); // Suppression des pairs inactifs
             sendto(sock_lan, MSG_ANNONCE, strlen(MSG_ANNONCE), 0, 
                    (struct sockaddr *)&addr_broadcast, sizeof(addr_broadcast));
         }
