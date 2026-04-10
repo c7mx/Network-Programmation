@@ -46,3 +46,8 @@ python3 Main.py run Smart Daft -p
 python3 Main.py load <SAVEFILE> --gui
 python3 Main.py load save/quick_save.json --gui
 
+### Access rights
+```bash
+If you get this error : PermissionError: [Errno 13] Permission denied: './network/comm_c_c'
+You must type in the terminal : chmod +x ./network/comm_c_c
+
