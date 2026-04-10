@@ -9,7 +9,7 @@ from util.Functions import parse_units_list, parse_range, get_scenario, create_p
 #import subprocess
 
 if __name__ == '__main__':
-    #subprocess.run(["./network/comm_c_c"])
+    subprocess.Popen(["./network/comm_c_c"])
     parser = create_parser()
     args = parser.parse_args()
 
