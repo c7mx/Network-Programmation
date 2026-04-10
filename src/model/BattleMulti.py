@@ -106,7 +106,6 @@ class BattleMulti:
                 if self.general.is_defeated(self.battlefield):
                     if self.view is None:
                         running = False
-                        running = False
 
                 if self.winner:
                     if self.logger :
