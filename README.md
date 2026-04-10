@@ -41,6 +41,13 @@ python3 Main.py run Smart Daft -p
 
 ```
 
+### Run a 4 IA battle
+```bash
+python3 Main.py run4 <AI1> <AI2> <AI3> <AI4> [-t] [-d DATAFILE] [-p]
+python3 Main.py run4 Smart Daft Daft Smart -p
+
+```
+
 ### Load a saved battle
 ```bash
 python3 Main.py load <SAVEFILE> --gui
