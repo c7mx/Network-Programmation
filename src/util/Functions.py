@@ -93,6 +93,16 @@ def create_parser():
     run_p.add_argument('-d', '--datafile', help='Where to write data from that battle')
     run_p.add_argument('-p', '--plot', action='store_true', help='Plot unit number evolution at the end')
 
+    run4_p = subparsers.add_parser('run4', help='Run a battle between two AIs')
+
+    run4_p.add_argument('AI1', help='First AI name')
+    run4_p.add_argument('AI2', help='Second AI name')
+    run4_p.add_argument('AI3', help='Third AI name')
+    run4_p.add_argument('AI4', help='Fourth AI name')
+    run4_p.add_argument('-t', '--terminal', action='store_true', help='Display output in terminal')
+    run4_p.add_argument('-d', '--datafile', help='Where to write data from that battle')
+    run4_p.add_argument('-p', '--plot', action='store_true', help='Plot unit number evolution at the end')
+
     multi_p = subparsers.add_parser('multi', help='Initialisation d\'une IA pour le multi')
 
     multi_p.add_argument('AI1', help='First AI name')
