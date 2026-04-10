@@ -1,7 +1,6 @@
 import socket
 import select
 import network.json_utils as j
-import time
 
 C_HOST = "127.0.0.1"
 C_PORT = 1040
@@ -21,7 +20,7 @@ def connect_sock_recv():
     return python_c_socket
 
 def send_data(sock, uid, hp, x, y, type=None):
-    data = j.create_json(uid, hp, x, y, type=None)
+    data = j.create_json(uid, hp, x, y, type)
     sock.send(data.encode())
 
 def receive_data(sock):
