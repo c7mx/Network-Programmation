@@ -1,3 +1,4 @@
+import os
 ROWS = 120
 COLS = 120
 CELL_SIZE = 40
@@ -50,19 +51,93 @@ DEFAULT_SCENARIOS = [
 ELEVATION_JSON_FILEPATH = "Elevation.json"
 STATS_FILEPATH = "Stats_Units.csv"
 STATS_BONUS_FILEPATH = "model/Stats_Bonus.csv"
+
+
+
+
+# Dossier de base des images
+BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+
 IMAGE_FILES = {
-            "Knight_1": "../../img/Sprites/Knight/Red/right.png",
-            "Knight_2": "../../img/Sprites/Knight/Blue/left.png",
-            "Knight_3": "../../img/Sprites/Knight/Green/right.png",
-            "Knight_4": "../../img/Sprites/Knight/Yellow/left.png",
-            "Pikeman_1": "../../img/Sprites/Pikeman/Red/right.png",
-            "Pikeman_2": "../../img/Sprites/Pikeman/Blue/left.png",
-            "Pikeman_3": "../../img/Sprites/Pikeman/Green/right.png",
-            "Pikeman_4": "../../img/Sprites/Pikeman/Yellow/left.png",
-            "Crossbowman_1": "../../img/Sprites/Crossbowman/Red/right.png",
-            "Crossbowman_2": "../../img/Sprites/Crossbowman/Blue/left.png",
-            "Crossbowman_3": "../../img/Sprites/Crossbowman/Green/right.png",
-            "Crossbowman_4": "../../img/Sprites/Crossbowman/Yellow/left.png"
+    "Knight_1": {
+        "up": "../../img/Sprites/Knight/Red/up.png",
+        "down": "../../img/Sprites/Knight/Red/down.png",
+        "left": "../../img/Sprites/Knight/Red/left.png",
+        "right": "../../img/Sprites/Knight/Red/right.png"
+    },
+    "Knight_2": {
+        "up": "../../img/Sprites/Knight/Blue/up.png",
+        "down": "../../img/Sprites/Knight/Blue/down.png",
+        "left": "../../img/Sprites/Knight/Blue/left.png",
+        "right": "../../img/Sprites/Knight/Blue/right.png"
+    },
+
+    "Knight_3": {
+        "up": "../../img/Sprites/Knight/Green/up.png",
+        "down": "../../img/Sprites/Knight/Green/down.png",
+        "left": "../../img/Sprites/Knight/Green/left.png",
+        "right": "../../img/Sprites/Knight/Green/right.png"
+    },
+    "Knight_4": {
+        "up": "../../img/Sprites/Knight/Yellow/up.png",
+        "down": "../../img/Sprites/Knight/Yellow/down.png",
+        "left": "../../img/Sprites/Knight/Yellow/left.png",
+        "right": "../../img/Sprites/Knight/Yellow/right.png"
+    },
+
+    "Pikeman_1": {
+        "up": "../../img/Sprites/Pikeman/Red/up.png",
+        "down": "../../img/Sprites/Pikeman/Red/down.png",
+        "left": "../../img/Sprites/Pikeman/Red/left.png",
+        "right": "../../img/Sprites/Pikeman/Red/right.png"
+    },
+    "Pikeman_2": {
+        "up": "../../img/Sprites/Pikeman/Blue/up.png",
+        "down": "../../img/Sprites/Pikeman/Blue/down.png",
+        "left": "../../img/Sprites/Pikeman/Blue/left.png",
+        "right": "../../img/Sprites/Pikeman/Blue/right.png"
+    },
+
+    "Pikeman_3": {
+        "up": "../../img/Sprites/Pikeman/Green/up.png",
+        "down": "../../img/Sprites/Pikeman/Green/down.png",
+        "left": "../../img/Sprites/Pikeman/Green/left.png",
+        "right": "../../img/Sprites/Pikeman/Green/right.png"
+    },
+    "Pikeman_4": {
+        "up": "../../img/Sprites/Pikeman/Yellow/up.png",
+        "down": "../../img/Sprites/Pikeman/Yellow/down.png",
+        "left": "../../img/Sprites/Pikeman/Yellow/left.png",
+        "right": "../../img/Sprites/Pikeman/Yellow/right.png"
+    },
+
+    "Crossbowman_1": {
+        "up": "../../img/Sprites/Crossbowman/Red/up.png",
+        "down": "../../img/Sprites/Crossbowman/Red/down.png",
+        "left": "../../img/Sprites/Crossbowman/Red/left.png",
+        "right": "../../img/Sprites/Crossbowman/Red/right.png"
+    },
+    "Crossbowman_2": {
+        "up": "../../img/Sprites/Crossbowman/Blue/up.png",
+        "down": "../../img/Sprites/Crossbowman/Blue/down.png",
+        "left": "../../img/Sprites/Crossbowman/Blue/left.png",
+        "right": "../../img/Sprites/Crossbowman/Blue/right.png"
+    },
+    "Crossbowman_3": {
+        "up": "../../img/Sprites/Crossbowman/Green/up.png",
+        "down": "../../img/Sprites/Crossbowman/Green/down.png",
+        "left": "../../img/Sprites/Crossbowman/Green/left.png",
+        "right": "../../img/Sprites/Crossbowman/Green/right.png"
+    },
+    "Crossbowman_4": {
+        "up": "../../img/Sprites/Crossbowman/Yellow/up.png",
+        "down": "../../img/Sprites/Crossbowman/Yellow/down.png",
+        "left": "../../img/Sprites/Crossbowman/Yellow/left.png",
+        "right": "../../img/Sprites/Crossbowman/Yellow/right.png"
+    },
+
+
+    
 }
 
 
