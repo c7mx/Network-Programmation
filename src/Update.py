@@ -12,8 +12,7 @@ from model.Battlefield import Battlefield
 
 def update(data_list, battlefield:Battlefield):
     while data_list:
-        element = data_list.pop(0)
-        data = json.loads(element)
+        data = data_list.pop(0)
 
         if data["type"] == 'K':
             data["name"] = "Knight"
