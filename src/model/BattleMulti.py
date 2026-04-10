@@ -86,7 +86,7 @@ class BattleMulti:
             if not self.paused and self.winner is None:
 
                 for _ in range(self.speed):
-                    update(data_list, battlefield)
+                    update(data_list, battlefield.unit)
                     self.general.play(self.battlefield)
 
                     if self.logger:
