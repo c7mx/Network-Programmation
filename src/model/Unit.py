@@ -4,6 +4,7 @@ import math
 from model.Battlefield import Battlefield
 import network.comm_py_c as NetPy
 import random
+import time
 from Constant import STATS_BONUS_FILEPATH, EPSILON, K_ELEVATION_H, K_ELEVATION_D
 from util.CSVLoader import CSVLoader
 
@@ -37,6 +38,33 @@ class Unit(ABC):
     target_pos: tuple[float, float] = None
     
     last_attacker: "Unit" = None    # Unit that last attacked this unit (for Braindead strategy)
+
+    direction: str = "down"
+    direction_cooldown:float = 0
+
+    def update_direction(self, new_position):
+        old_row, old_col = self.position
+        new_row, new_col = new_position
+
+        dx = new_col - old_col
+        dy = new_row - old_row
+        if self.direction_cooldown < 0:
+            if abs(dx) > abs(dy):
+                if dx > 0.014:
+                    self.direction = "right"
+                    self.direction_cooldown += 1
+                elif dx < -0.014:
+                    self.direction = "left"
+                    self.direction_cooldown += 1
+            else:
+                if dy > 0.014:
+                    self.direction = "down"
+                    self.direction_cooldown += 1
+                elif dy < -0.014:
+                    self.direction = "up"
+                    self.direction_cooldown += 1
+        else : 
+            self.direction_cooldown -= 0.1
 
     # ------------------------------------------------------------------
     # CORE STATUS & UTILITY
@@ -186,7 +214,8 @@ class Unit(ABC):
                 # Automatic engagement if it is an enemy
                 self.set_order("attack", target=blocker)
             return False # We stop no matter what (ally or enemy)
-            
+
+        self.update_direction(new_pos)
         self.position = new_pos
 
         # Network Part
