@@ -55,7 +55,7 @@ int main() {
     memset(&addr_broadcast, 0, sizeof(addr_broadcast));
     addr_broadcast.sin_family = AF_INET;
     addr_broadcast.sin_port = htons(LAN_PORT);
-    addr_broadcast.sin_addr.s_addr = inet_addr("255.255.255.25s5");
+    addr_broadcast.sin_addr.s_addr = inet_addr("255.255.255.255");
 
     printf("--- PASSERELLE C PRÊTE (LAN:%d <-> IPC:%d) ---\n", LAN_PORT, C_PORT);
 
