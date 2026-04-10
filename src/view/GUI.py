@@ -115,21 +115,21 @@ class GUI(View):
 
 
     def load_unit_sprites(self):
-        """
-        Loads and scales unit sprites to CELL_SIZE dimensions.
-
-        :return: A dictionary mapping unit keys to their scaled Pygame Surface.
-        :rtype: dict
-        """
         path = os.path.dirname(__file__)
         images = {}
-        for key, file in IMAGE_FILES.items():
-            full_path = os.path.join(path, file)
-            if os.path.exists(full_path):
-                img = pygame.image.load(full_path).convert_alpha()
-                # Original sprites are stored at CELL_SIZE
-                img = pygame.transform.scale(img, (CELL_SIZE, CELL_SIZE))
-                images[key] = img
+
+        for key, directions in IMAGE_FILES.items():
+            images[key] = {}
+
+            for direction, file in directions.items():
+                full_path = os.path.join(path, file)
+                if os.path.exists(full_path):
+                    img = pygame.image.load(full_path).convert_alpha()
+                    img = pygame.transform.scale(img, (CELL_SIZE, CELL_SIZE))
+                    images[key][direction] = img
+                else:
+                    print(f"Image manquante: {full_path}")
+
         return images
 
     def draw_minimap(self):
@@ -417,9 +417,9 @@ class GUI(View):
                 else :
                     id = 4
                 key = f"{unit.name}_{id}"
-                if key in self.unit_images:
+                if key in self.unit_images and unit.direction in self.unit_images[key]:
                     camera_surface.blit(
-                        self.unit_images[key],
+                        self.unit_images[key][unit.direction],
                         (rel_x, rel_y)
                     )
 
@@ -556,5 +556,7 @@ class GUI(View):
         """
         self.winner = winner_name
         self.pause = True
+
+
 
 
