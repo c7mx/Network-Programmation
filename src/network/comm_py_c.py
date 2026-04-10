@@ -1,6 +1,7 @@
 import socket
 import select
-import network.json_utils as j
+import json_utils as j
+import time
 
 C_HOST = "127.0.0.1"
 C_PORT = 1040
@@ -19,9 +20,9 @@ def connect_sock_recv():
     print(f"Listen at {C_HOST}:{PY_PORT}")
     return python_c_socket
 
-def send_data(data, sock):
+def send_data(sock, uid, hp, x, y, type=None):
+    data = j.create_json(uid, hp, x, y, type=None)
     sock.send(data.encode())
-    sock.close()
 
 def receive_data(sock):
     ready, _, _ = select.select([sock], [], [], 0)  # 0 = non bloquant
@@ -33,21 +34,3 @@ def receive_data(sock):
         return msg
     
     return None
-
-
-# sock = connect_sock_send()
-
-# data = j.create_json(0, 100, 10, 10)
-# send_data(data, sock)
-
-# sock = connect_sock_recv()
-
-# while True:
-#     msg = receive_data(sock)
-
-#     if msg:
-#         data = j.load_json(msg)
-#         print(data)
-#         print(data["uid"])
-
-
