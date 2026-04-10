@@ -47,8 +47,6 @@ class Unit(ABC):
         dx = new_col - old_col
         dy = new_row - old_row
         if self.direction_cooldown < 0:
-            print(dx)
-            print(dy)
             if abs(dx) > abs(dy):
                 if dx > 0.014:
                     self.direction = "right"
