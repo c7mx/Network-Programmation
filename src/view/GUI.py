@@ -1,3 +1,4 @@
+
 import pygame
 import os
 from model.Battlefield import Battlefield
@@ -32,7 +33,7 @@ class GUI(View):
 
 
         # Animation banners
-        self.banner_anim_progress = [0.0, 0.0]
+        self.banner_anim_progress = [0.0, 0.0 , 0.0 ,0.0]
         self.banner_open_speed = 0.01
 
         # --- Initialize Pygame ---
@@ -157,7 +158,7 @@ class GUI(View):
                 color = BLUE
             elif unit.id < 3000 :
                 color = GREEN
-            else :
+            elif unit.id < 4000:
                 color = YELLOW
             if not unit.is_alive():
                 continue
@@ -295,10 +296,10 @@ class GUI(View):
         banner_width = self.screen_w // 4
         margin = 10
 
-        for i, g in enumerate(self.generaux[:2]):
+        for i, g in enumerate(self.generaux):
 
 
-            # a modifer pour ajouter GREEN / YELLOW
+
             # Pick side and color
             if i == 0:
                 base_x = margin
@@ -414,7 +415,7 @@ class GUI(View):
                     id = 2
                 elif unit.id < 3000 :
                     id = 3
-                else :
+                elif unit.id < 4000 :
                     id = 4
                 key = f"{unit.name}_{id}"
                 if key in self.unit_images and unit.direction in self.unit_images[key]:
@@ -556,7 +557,5 @@ class GUI(View):
         """
         self.winner = winner_name
         self.pause = True
-
-
 
 
