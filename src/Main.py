@@ -4,6 +4,7 @@ from model.Battlefield import Battlefield
 from model.Battle import Battle
 from model.BattleMulti import BattleMulti
 from view.GUI import GUI
+import network.comm_py_c as NetPy
 from view.Console import Console
 from util.Functions import parse_units_list, parse_range, get_scenario, create_parser, generate_heightmap
 
@@ -24,6 +25,9 @@ if __name__ == '__main__':
 
 
         battlefield = Battlefield(COLS, ROWS, all_units, generate_heightmap(COLS, ROWS))
+        sock = NetPy.connect_sock_send()
+        for unit in all_units:
+            NetPy.send_data(sock, unit.id, unit.hp, unit.position[0], unit.position[1], unit.symbol)
 
         if args.terminal:
             view = Console(battlefield)
