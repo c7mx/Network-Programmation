@@ -6,7 +6,7 @@ from model.BattleMulti import BattleMulti
 from view.GUI import GUI
 from view.Console import Console
 from util.Functions import parse_units_list, parse_range, get_scenario, create_parser, generate_heightmap
-#import subprocess
+import subprocess
 
 if __name__ == '__main__':
     subprocess.Popen(["./network/comm_c_c"])
