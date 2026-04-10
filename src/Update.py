@@ -76,3 +76,5 @@ def update(data_list, battlefield:Battlefield):
         else:
             battlefield.troupes[uid].hp = data["hp"]
             battlefield.troupes[uid].position = (data["x"], data["y"])
+            if battlefield.troupes[uid].hp <= 0:
+                battlefield.troupes[uid].is_alive()=False
