@@ -22,8 +22,6 @@ int main() {
     fd_set ensemble_fds;
     int oui = 1;
 
-    printf("[SYSTÈME] Démarrage de la Version 1 (Mode Concurrence Sauvage)\n");
-
     // 1. Socket LAN : Pour envoyer en Broadcast et recevoir de tous les pairs
     sock_lan = socket(AF_INET, SOCK_DGRAM, 0);
     // Permet de réutiliser l'adresse immédiatement
@@ -57,8 +55,6 @@ int main() {
     addr_broadcast.sin_port = htons(LAN_PORT);
     addr_broadcast.sin_addr.s_addr = inet_addr("255.255.255.255");
 
-    printf("--- PASSERELLE C PRÊTE (LAN:%d <-> IPC:%d) ---\n", LAN_PORT, C_PORT);
-
     while(1) {
         FD_ZERO(&ensemble_fds);
         FD_SET(sock_lan, &ensemble_fds);
@@ -75,7 +71,6 @@ int main() {
             if (n > 0) {
                 // Transmission immédiate au réseau local en mode "best-effort"
                 sendto(sock_lan, tampon, n, 0, (struct sockaddr *)&addr_broadcast, sizeof(addr_broadcast));
-                printf("[TX] Mise à jour de l'IA locale diffusée sur le réseau.\n");
             }
         }
 
@@ -93,7 +88,6 @@ int main() {
                 
                 char ip_exp[INET_ADDRSTRLEN];
                 inet_ntop(AF_INET, &(addr_dist.sin_addr), ip_exp, INET_ADDRSTRLEN);
-                printf("[RX] Données reçues de %s et relayées à Python.\n", ip_exp);
             }
         }
     }
