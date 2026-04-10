@@ -1,4 +1,3 @@
-```python
 from model.General import General
 from view.View import View
 from model.Battlefield import Battlefield
@@ -155,4 +154,3 @@ class BattleMulti:
         self.battlefield = loaded_battle.battlefield
         self.winner = None
         self.paused = loaded_battle.paused
-```
