@@ -8,7 +8,7 @@ from model.BattleMulti import BattleMulti
 from view.GUI import GUI
 import network.comm_py_c as NetPy
 from view.Console import Console
-from util.Functions import parse_units_list, parse_range, get_scenario, create_parser, generate_heightmap
+from util.Functions import get_scenario, create_parser, generate_heightmap
 
 if __name__ == '__main__':
 
@@ -36,13 +36,7 @@ if __name__ == '__main__':
         else:
             view = GUI(battlefield, [general1, general2], VIEW_ELEVATION)
 
-        if args.datafile:
-            battle = Battle(general1, general2, battlefield, view, args.datafile)
-        else:
-            battle = Battle(general1, general2, battlefield, view)
-
-        if args.plot:
-            battle.collectStats = True
+        battle = Battle(general1, general2, battlefield, view)
 
         battle.start()
 
@@ -66,13 +60,7 @@ if __name__ == '__main__':
         else:
             view = GUI(battlefield, [general1, general2, general3,general4], VIEW_ELEVATION)
 
-        if args.datafile:
-            battle = Battle4(general1, general2, general3,general4, battlefield, view, args.datafile)
-        else:
-            battle = Battle4(general1, general2, general3 , general4,battlefield, view)
-
-        if args.plot:
-            battle.collectStats = True
+        battle = Battle4(general1, general2, general3 , general4,battlefield, view)
 
         battle.start()
 
@@ -93,12 +81,6 @@ if __name__ == '__main__':
         else:
             view = GUI(battlefield, [general1], VIEW_ELEVATION)
 
-        if args.datafile:
-            battle = BattleMulti(general1, battlefield, view, args.datafile)
-        else:
-            battle = BattleMulti(general1, battlefield, view)
-
-        if args.plot:
-            battle.collectStats = True
+        battle = BattleMulti(general1, battlefield, view)
 
         battle.start()
