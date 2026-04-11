@@ -19,7 +19,6 @@ The system is designed as an experimental platform to compare AI behaviors under
 
 - Python 3.12
 - Pygame
-- matplotlib
 
 ---
 
