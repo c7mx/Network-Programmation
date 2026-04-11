@@ -1,6 +1,4 @@
-import matplotlib.pyplot as plt
 import importlib
-import time
 import os
 import argparse
 import json
@@ -57,6 +55,7 @@ def generate_heightmap(width, height, center_size=40, max_elev=ELEVATON_MAX_VALU
 
     return map_data
 
+
 def load_heightmap(filepath):
     """
     Load a battlefield heightmap from a JSON file.
@@ -74,8 +73,7 @@ def create_parser():
     """
     Create and configure the command-line argument parser.
 
-    This function defines all available commands (`run`, `load`, `tourney`,
-    and `plot`) along with their required and optional arguments.
+    This function defines all available commands (`run`, `run4` and `multi`) along with their required and optional arguments.
 
     Returns
     -------
@@ -90,8 +88,6 @@ def create_parser():
     run_p.add_argument('AI1', help='First AI name')
     run_p.add_argument('AI2', help='Second AI name')
     run_p.add_argument('-t', '--terminal', action='store_true', help='Display output in terminal')
-    run_p.add_argument('-d', '--datafile', help='Where to write data from that battle')
-    run_p.add_argument('-p', '--plot', action='store_true', help='Plot unit number evolution at the end')
 
     run4_p = subparsers.add_parser('run4', help='Run a battle between two AIs')
 
@@ -100,15 +96,11 @@ def create_parser():
     run4_p.add_argument('AI3', help='Third AI name')
     run4_p.add_argument('AI4', help='Fourth AI name')
     run4_p.add_argument('-t', '--terminal', action='store_true', help='Display output in terminal')
-    run4_p.add_argument('-d', '--datafile', help='Where to write data from that battle')
-    run4_p.add_argument('-p', '--plot', action='store_true', help='Plot unit number evolution at the end')
 
-    multi_p = subparsers.add_parser('multi', help='Initialisation d\'une IA pour le multi')
+    multi_p = subparsers.add_parser('multi', help='Initialisation of one AI for multi mode')
 
     multi_p.add_argument('AI1', help='First AI name')
     multi_p.add_argument('-t', '--terminal', action='store_true', help='Display output in terminal')
-    multi_p.add_argument('-d', '--datafile', help='Where to write data from that battle')
-    multi_p.add_argument('-p', '--plot', action='store_true', help='Plot unit number evolution at the end')
 
     return parser
 
@@ -131,7 +123,7 @@ def get_scenario():
     environments.
     """
     print("Please enter a scenario")
-    print("Format : {\"Crossbowman\":10, \"Pikeman\":10,\"Knight\":10,\"startLine\":55,\"startCol\":50,\"armyDistance\":10, \"unitPerCol\":10}")
+    print("Format : {\"Crossbowman\":10, \"Pikeman\":10, \"Knight\":10, \"startLine\":55, \"startCol\":50, \"armyDistance\":10, \"unitPerCol\":10}")
     while True:
         raw = input("->").strip()
         if raw.startswith("Format:"):
@@ -146,7 +138,6 @@ def get_scenario():
                 return ast.literal_eval(raw)
             except (ValueError, SyntaxError):
                 print("Invalid format. Please paste a dict or JSON example as shown.")
-
 
 
 def parse_units_list(s: str):
@@ -287,58 +278,6 @@ def get_max_hp(unit_type):
     return int(stats[unit_type]["hp"])
 
 
-def plot(axis_x, axis_y,title="Graph", xlabel="X-axis", ylabel="Y-axis", labels=None, show=True, save_folder_path=None):
-    """
-    Plot several Y-series against a shared X-axis.
-
-    Parameters
-    ----------
-    axis_x : list or iterable
-        Values for the X-axis.
-    axis_y : list[list or iterable]
-        A list of Y-series to display on the same graph.
-    title : str, optional
-        Title of the plot.
-    xlabel : str, optional
-        Label of the X-axis.
-    ylabel : str, optional
-        Label of the Y-axis.
-    labels : list[str], optional
-        Labels for each Y-series.
-    show : bool, optional
-        Display the plot interactively.
-    save_folder_path : str, optional
-        If provided, the plot is saved to this folder with a timestamped filename.
-
-    Returns
-    -------
-    None
-    """
-    plt.figure(figsize=(8, 5))
-
-    # Plot each Y-series
-    for i, y_values in enumerate(axis_y):
-        label = labels[i] if labels and i < len(labels) else f"Series {i+1}"
-        plt.plot(axis_x, y_values, label=label)
-
-    # Titles and labels
-    plt.title(title)
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-    plt.legend()
-    plt.grid(True, linestyle='--', alpha=0.6)
-
-    # Save or show SAVE_FOLDER
-    if save_folder_path:
-        date = time.strftime("%Y%m%d-%H%M%S")
-        path = save_folder_path + date + ".png"
-        plt.savefig(path,dpi=300, bbox_inches='tight')
-    if show:
-        plt.show()
-    plt.close()
-
-
-
 def create_strategy(name):
     """
     Dynamically load and instantiate a strategy class from the iastrategy module.
@@ -404,9 +343,7 @@ def load_scenarios(scenarios_input):
                 scenarios.append(val)
             except Exception:
                 scenarios.append(s)
-
     return scenarios
-
 
 
 def elevation_color(elevation: int) -> tuple[int, int, int]:
@@ -440,5 +377,4 @@ def elevation_color(elevation: int) -> tuple[int, int, int]:
                 int(c0[1] + (c1[1] - c0[1]) * t),
                 int(c0[2] + (c1[2] - c0[2]) * t),
             )
-
     return stops[-1][1]
