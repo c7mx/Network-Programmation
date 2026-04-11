@@ -1,4 +1,6 @@
 import os
+
+
 ROWS = 120
 COLS = 120
 CELL_SIZE = 40
@@ -30,7 +32,6 @@ PAUSE_OVERLAY_COLOR = (0, 0, 0, 120)
 
 # BattleTournament' Scenarios
 DEFAULT_SCENARIOS = [
-   
     {"Crossbowman":20, "Pikeman":0,"Knight":0,"startLine":50,"startCol":40,"armyDistance":10,"unitPerCol":10},
     {"Crossbowman":0, "Pikeman":20,"Knight":0,"startLine":50,"startCol":40,"armyDistance":10,"unitPerCol":10},
     {"Crossbowman":0, "Pikeman":0,"Knight":20,"startLine":50,"startCol":40,"armyDistance":10,"unitPerCol":10},
@@ -39,12 +40,11 @@ DEFAULT_SCENARIOS = [
     {"Crossbowman":0, "Pikeman":20,"Knight":20,"startLine":50,"startCol":40,"armyDistance":10,"unitPerCol":10},
     {"Crossbowman":20, "Pikeman":0,"Knight":20,"startLine":50,"startCol":40,"armyDistance":10,"unitPerCol":10}, 
    
-    {"Crossbowman":60, "Pikeman":20,"Knight":20,"startLine":50,"startCol":50,"armyDistance":40,"unitPerCol":10}, #Mettre en avant Smart
+    {"Crossbowman":60, "Pikeman":20,"Knight":20,"startLine":50,"startCol":50,"armyDistance":40,"unitPerCol":10},
     
     {"Crossbowman":60, "Pikeman":60,"Knight":60,"startLine":40,"startCol":40,"armyDistance":15,"unitPerCol":20},
     
-    {"Crossbowman":100, "Pikeman":100,"Knight":100,"startLine":40,"startCol":20,"armyDistance":20,"unitPerCol":30},
-    
+    {"Crossbowman":100, "Pikeman":100,"Knight":100,"startLine":40,"startCol":20,"armyDistance":20,"unitPerCol":30}
 ]
 
 
@@ -53,9 +53,7 @@ STATS_FILEPATH = "Stats_Units.csv"
 STATS_BONUS_FILEPATH = "model/Stats_Bonus.csv"
 
 
-
-
-# Dossier de base des images
+# Base Picture Path
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 IMAGE_FILES = {
@@ -71,7 +69,6 @@ IMAGE_FILES = {
         "left": "../../img/Sprites/Knight/Blue/left.png",
         "right": "../../img/Sprites/Knight/Blue/right.png"
     },
-
     "Knight_3": {
         "up": "../../img/Sprites/Knight/Green/up.png",
         "down": "../../img/Sprites/Knight/Green/down.png",
@@ -97,7 +94,6 @@ IMAGE_FILES = {
         "left": "../../img/Sprites/Pikeman/Blue/left.png",
         "right": "../../img/Sprites/Pikeman/Blue/right.png"
     },
-
     "Pikeman_3": {
         "up": "../../img/Sprites/Pikeman/Green/up.png",
         "down": "../../img/Sprites/Pikeman/Green/down.png",
@@ -134,10 +130,7 @@ IMAGE_FILES = {
         "down": "../../img/Sprites/Crossbowman/Yellow/down.png",
         "left": "../../img/Sprites/Crossbowman/Yellow/left.png",
         "right": "../../img/Sprites/Crossbowman/Yellow/right.png"
-    },
-
-
-    
+    }
 }
 
 
@@ -145,4 +138,3 @@ BACKGROUND = "../../img/backgrounds/back.png"
 SAVE_FOLDER = "../save/"
 LOGS_FOLDER = "../save/logs/"
 REPORTS_FOLDER = "../save/reports/"
-PLOTS_FOLDER = "../save/plots/"
