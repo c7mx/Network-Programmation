@@ -1,8 +1,7 @@
 from model.General import General
 from view.View import View
 from model.Battlefield import Battlefield
-from Constant import FPS, PLOTS_FOLDER, HEADLESS_SPEEDUP
-from util.Functions import plot
+from Constant import FPS, HEADLESS_SPEEDUP
 import pygame
 from util.Logger import Logger
 from .GameSnapshotReporter import GameSnapshotReporter
