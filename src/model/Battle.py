@@ -1,8 +1,7 @@
 from model.General import General
 from view.View import View
 from model.Battlefield import Battlefield
-from Constant import FPS,PLOTS_FOLDER, HEADLESS_SPEEDUP
-from util.Functions import plot
+from Constant import FPS, HEADLESS_SPEEDUP
 import pygame
 from util.Logger import Logger
 from .GameSnapshotReporter import GameSnapshotReporter
@@ -65,7 +64,6 @@ class Battle:
         1. Frame-rate timing (Pygame or sleep-based).
         2. Input events and state updates for units/battlefield.
         3. Victory, timeout, and stalemate detection.
-        4. Post-battle statistics plotting (if enabled).
 
         Returns:
             General: The winner of the battle, or None if a draw occurred.
