@@ -83,7 +83,7 @@ class BattleMulti:
                 
                 msg = NetPy.receive_data(sock)
 
-                if msg:
+                if msg and msg.strip():
                     # print(msg)
                     data = j.load_json(msg)
                     data_list.append(data)
