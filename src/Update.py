@@ -56,23 +56,24 @@ def update(data_list, battlefield:Battlefield):
         uid = data["uid"]
 
         if uid not in battlefield.troupes:
-            battlefield.troupes[uid] = Unit(
-                data["uid"],
-                data["name"],
-                data["type"],
-                data["hp"],
-                data["type_attack"],
-                data["attack"],
-                data["armor"],
-                data["pierce_armor"],
-                data["range"],
-                data["line_of_sight"],
-                data["speed"],
-                data["attack_delay"],
-                data["reload_time"],
-                data["accuracy"],
-                (data["x"], data["y"])
-            )
+            if data ["hp"] != 0:
+                battlefield.troupes[uid] = Unit(
+                    data["uid"],
+                    data["name"],
+                    data["type"],
+                    data["hp"],
+                    data["type_attack"],
+                    data["attack"],
+                    data["armor"],
+                    data["pierce_armor"],
+                    data["range"],
+                    data["line_of_sight"],
+                    data["speed"],
+                    data["attack_delay"],
+                    data["reload_time"],
+                    data["accuracy"],
+                    (data["x"], data["y"])
+                )
         else:
             if battlefield.troupes[uid].line_of_sight != 0:
                 if data["hp"] < battlefield.troupes[uid].hp:
