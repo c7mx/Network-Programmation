@@ -2,7 +2,7 @@ import json
 import sys
 import os
 
-# Chemin absolu vers le dossier src, peu importe depuis où on lance le script
+# Absolute path of srcdirectory
 SRC_DIR = os.path.dirname(os.path.abspath(__file__))
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
@@ -21,7 +21,7 @@ def update(data_list, battlefield:Battlefield):
             data["armor"] = 2
             data["pierce_armor"] = 2
             data["range"] = 0.01
-            data["line_of_sight"] = 4
+            data["line_of_sight"] = 0
             data["speed"] = 1.35
             data["attack_delay"] = 0
             data["reload_time"] = 1.8
@@ -34,7 +34,7 @@ def update(data_list, battlefield:Battlefield):
             data["armor"] = 0
             data["pierce_armor"] = 0
             data["range"] = 5
-            data["line_of_sight"] = 7
+            data["line_of_sight"] = 0
             data["speed"] = 0.96
             data["attack_delay"] = 0
             data["reload_time"] = 5
@@ -47,7 +47,7 @@ def update(data_list, battlefield:Battlefield):
             data["armor"] = 0
             data["pierce_armor"] = 0
             data["range"] = 0.01
-            data["line_of_sight"] = 4
+            data["line_of_sight"] = 0
             data["speed"] = 1
             data["attack_delay"] = 0
             data["reload_time"] = 3
@@ -74,7 +74,14 @@ def update(data_list, battlefield:Battlefield):
                 (data["x"], data["y"])
             )
         else:
-            battlefield.troupes[uid].hp = data["hp"]
-            battlefield.troupes[uid].position = (data["x"], data["y"])
+            if battlefield.troupes[uid].line_of_sight != 0:
+                if data["hp"] < battlefield.troupes[uid].hp:
+                    battlefield.troupes[uid].hp = data["hp"]
+            else:
+                if data["hp"] < battlefield.troupes[uid].hp:
+                    battlefield.troupes[uid].hp = data["hp"]
+                if (battlefield.troupes[uid].position[0] != data["x"]
+                        or battlefield.troupes[uid].position[1] != data["y"]):
+                    battlefield.troupes[uid].position = (data["x"], data["y"])
             if battlefield.troupes[uid].hp <= 0:
                 battlefield.remove_unit(uid)
