@@ -75,14 +75,13 @@ def update(data_list, battlefield:Battlefield):
                     (data["x"], data["y"])
                 )
         else:
-            if battlefield.troupes[uid].line_of_sight != 0:
-                if data["hp"] < battlefield.troupes[uid].hp:
-                    battlefield.troupes[uid].hp = data["hp"]
-            else:
-                if data["hp"] < battlefield.troupes[uid].hp:
-                    battlefield.troupes[uid].hp = data["hp"]
+            if data["hp"] < battlefield.troupes[uid].hp:
+                battlefield.troupes[uid].hp = data["hp"]
+            if battlefield.troupes[uid].line_of_sight == 0:
                 if (battlefield.troupes[uid].position[0] != data["x"]
                         or battlefield.troupes[uid].position[1] != data["y"]):
                     battlefield.troupes[uid].position = (data["x"], data["y"])
+            if battlefield.troupes[uid].hp <= 0:
+                battlefield.remove_unit(uid)
             if battlefield.troupes[uid].hp <= 0:
                 battlefield.remove_unit(uid)
