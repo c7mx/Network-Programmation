@@ -3,7 +3,7 @@ class General:
     Represent a general who control its units.
     """
 
-    def __init__(self, name, general_id, strategy) -> None:
+    def __init__(self, name, general_id, strategy,id_joueur=None) -> None:
         """
         Initialise general.
 
@@ -24,6 +24,7 @@ class General:
         if not isinstance(name, str) or not name.strip():
             raise ValueError("General name must be a non-empty string.")
         self.name = name
+        self.id_joueur=id_joueur
         self.id = general_id  # Use to filter units for its army (< 1000 ou >= 1000)
         self.strategy = strategy
 
@@ -37,8 +38,8 @@ class General:
         Recover unit in camp [(ID-1)*1000, ID*1000[
         """
 
-        lower_bound = (self.id - 1) * 1000
-        upper_bound = self.id * 1000
+        lower_bound = (self.id+int(self.id_joueur)- 1) * 1000
+        upper_bound = (self.id+int(self.id_joueur))* 1000
 
         # Global filter of unit dictionary
         return [
