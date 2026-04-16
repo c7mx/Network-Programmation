@@ -21,7 +21,7 @@ proc = subprocess.Popen(["./network/comm_c_c"])
 
 class BattleMulti:
 
-    def __init__(self, general: General, battlefield: Battlefield, view: View = None, datafile: str = None):
+    def __init__(self, general: General, battlefield: Battlefield, view: View = None, datafile: str = None,id_joueur: str =None):
         self.battlefield = battlefield
         self.general = general
         self.winner = None
@@ -30,6 +30,7 @@ class BattleMulti:
         self.view = view
         self.logger = None
         self.frame_count = 0
+        self.id_joueur = id_joueur
 
         if datafile:
             self.logger = Logger(datafile)
@@ -84,10 +85,10 @@ class BattleMulti:
                 msg = NetPy.receive_data(sock)
 
                 if msg and msg.strip():
-                    # print(msg)
+                    print(msg)
                     data = j.load_json(msg)
                     data_list.append(data)
-                    # print(data_list)
+                    print(data_list)
                 
 
                 update(data_list, self.battlefield)
