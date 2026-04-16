@@ -4,10 +4,11 @@ from util.UnitsFactory import UnitsFactory
 from util.Functions import create_strategy
 
 class ScenarioMaker:
-    def __init__(self, scenario, ia1Name, ia2Name=None):
+    def __init__(self, scenario, ia1Name, ia2Name=None,id_joueur=None):
         self.scenario = scenario
         self.ia1Name = ia1Name
         self.ia2Name = ia2Name
+        self.id_joueur = id_joueur
 
         self.units_factory = UnitsFactory()
         self.all_units = {}
@@ -93,7 +94,7 @@ class ScenarioMaker:
     def create_units(self):
         # Using a set to avoid duplicate technical keys
         unit_keys = ["Crossbowman", "Pikeman", "Knight"]
-        unit_id = 0
+        unit_id = int(self.id_joueur)*1000
 
         for unit_type in unit_keys:
             # Army 1
@@ -113,12 +114,12 @@ class ScenarioMaker:
 
     def create_generals(self):
         strat1 = create_strategy(self.ia1Name)
-        general1 = General("General1", 1, strat1)
+        general1 = General("General1", 1, strat1,self.id_joueur)
 
         general2 = None
         if self.ia2Name:
             strat2 = create_strategy(self.ia2Name)
-            general2 = General("General2", 2, strat2)
+            general2 = General("General2", 2, strat2,self.id_joueur)
 
         return general1, general2
 
