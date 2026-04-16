@@ -18,7 +18,7 @@ if __name__ == '__main__':
     if args.command == 'run':
         print(f"Running battle between {args.AI1} and {args.AI2}")
 
-        scenario_maker = ScenarioMaker(get_scenario(), args.AI1, args.AI2)
+        scenario_maker = ScenarioMaker(get_scenario(), args.AI1, args.AI2,id_joueur="0")
         data = scenario_maker.get_data()
 
         general1 = data.get("general1")
@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
         battlefield = Battlefield(COLS, ROWS, all_units, generate_heightmap(COLS, ROWS))
         sock = NetPy.connect_sock_send()
-        for unit in all_units:
+        for unit in all_units.values():
             NetPy.send_data(sock, unit.id, unit.hp, unit.position[0], unit.position[1], unit.symbol)
 
         if args.terminal:
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     if args.command == 'run4':
         print(f"Running battle between {args.AI1} and {args.AI2}")
 
-        scenario_maker = ScenarioMaker4(get_scenario(), args.AI1, args.AI2, args.AI3, args.AI4)
+        scenario_maker = ScenarioMaker4(get_scenario(), args.AI1, args.AI2, args.AI3, args.AI4,id_joueur="0")
         data = scenario_maker.get_data()
 
         general1 = data.get("general1")
@@ -65,9 +65,9 @@ if __name__ == '__main__':
         battle.start()
 
     if args.command == 'multi':
-        print(f"Bataille avec l'IA {args.AI1}")
+        print(f"Bataille avec l'IA {args.AI1},Joueur ID: {args.id_joueur}")
 
-        scenario_maker = ScenarioMaker(get_scenario(), args.AI1)
+        scenario_maker = ScenarioMaker(get_scenario(), args.AI1,id_joueur=args.id_joueur)
         data = scenario_maker.get_data()
 
         general1 = data.get("general1")
@@ -81,6 +81,7 @@ if __name__ == '__main__':
         else:
             view = GUI(battlefield, [general1], VIEW_ELEVATION)
 
-        battle = BattleMulti(general1, battlefield, view)
+        battle = BattleMulti(general1, battlefield, view,args.id_joueur)
+
 
         battle.start()
