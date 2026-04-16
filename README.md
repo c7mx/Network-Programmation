@@ -29,7 +29,7 @@ Make sure you are in the `src` directory and use one of the following commands:
 ### Test a multi battle
 ```bash
 python3 Main.py multi <AI1> --id_joueur <ID>
-python3 Main.py multi Smart -id_joueur 0
+python3 Main.py multi Smart --id_joueur 0
 
 ```
 
