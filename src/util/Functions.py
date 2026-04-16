@@ -101,6 +101,7 @@ def create_parser():
 
     multi_p.add_argument('AI1', help='First AI name')
     multi_p.add_argument('-t', '--terminal', action='store_true', help='Display output in terminal')
+    multi_p.add_argument('--id_joueur', type=str, required=True, help="ID du joueur")
 
     return parser
 
