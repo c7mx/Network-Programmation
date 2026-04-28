@@ -85,8 +85,7 @@ class UnitsFactory:
             "attack_delay": s["attack_Delay"],
             "reload_time": s["reload_time"],
             "accuracy": s["accuracy"],
-            "position": None,
-            "property":True
+            "position": None
         }
 
         # Instantiate and return the unit
