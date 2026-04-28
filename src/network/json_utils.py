@@ -13,6 +13,18 @@ def create_json(uid, hp, x, y, type=None):
 
     return msg
 
+def create_jsonbis(Req, uid, ETAT, Post_local):
+    data = {
+        "Req": Req,
+        "uid": uid,
+        "ETAT": ETAT,
+        "Post_local": Post_local
+    }
+
+    msg = json.dumps(data)  # dict → string JSON
+
+    return msg
+
 def load_json(msg):
 
     data = json.loads(msg)  # string → dict
