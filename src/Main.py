@@ -10,6 +10,19 @@ import network.comm_py_c as NetPy
 from view.Console import Console
 from util.Functions import get_scenario, create_parser, generate_heightmap
 
+
+def create_view(args, battlefield, generals):
+    """Create and return the appropriate view (Console or GUI)."""
+    if args.terminal:
+        return Console(battlefield)
+    return GUI(battlefield, generals, VIEW_ELEVATION)
+
+
+def create_battlefield(all_units):
+    """Create and return a Battlefield with a generated heightmap."""
+    return Battlefield(COLS, ROWS, all_units, generate_heightmap(COLS, ROWS))
+
+
 if __name__ == '__main__':
 
     parser = create_parser()
@@ -18,32 +31,27 @@ if __name__ == '__main__':
     if args.command == 'run':
         print(f"Running battle between {args.AI1} and {args.AI2}")
 
-        scenario_maker = ScenarioMaker(get_scenario(), args.AI1, args.AI2,id_joueur="0")
+        scenario_maker = ScenarioMaker(get_scenario(), args.AI1, args.AI2, id_joueur="0")
         data = scenario_maker.get_data()
 
         general1 = data.get("general1")
         general2 = data.get("general2")
         all_units = data.get("all_units")
 
+        battlefield = create_battlefield(all_units)
 
-        battlefield = Battlefield(COLS, ROWS, all_units, generate_heightmap(COLS, ROWS))
         sock = NetPy.connect_sock_send()
         for unit in all_units.values():
             NetPy.send_data(sock, unit.id, unit.hp, unit.position[0], unit.position[1], unit.symbol)
 
-        if args.terminal:
-            view = Console(battlefield)
-        else:
-            view = GUI(battlefield, [general1, general2], VIEW_ELEVATION)
-
+        view = create_view(args, battlefield, [general1, general2])
         battle = Battle(general1, general2, battlefield, view)
-
         battle.start()
 
-    if args.command == 'run4':
+    elif args.command == 'run4':
         print(f"Running battle between {args.AI1} and {args.AI2}")
 
-        scenario_maker = ScenarioMaker4(get_scenario(), args.AI1, args.AI2, args.AI3, args.AI4,id_joueur="0")
+        scenario_maker = ScenarioMaker4(get_scenario(), args.AI1, args.AI2, args.AI3, args.AI4, id_joueur="0")
         data = scenario_maker.get_data()
 
         general1 = data.get("general1")
@@ -52,36 +60,21 @@ if __name__ == '__main__':
         general4 = data.get("general4")
         all_units = data.get("all_units")
 
-
-        battlefield = Battlefield(COLS, ROWS, all_units, generate_heightmap(COLS, ROWS))
-
-        if args.terminal:
-            view = Console(battlefield)
-        else:
-            view = GUI(battlefield, [general1, general2, general3,general4], VIEW_ELEVATION)
-
-        battle = Battle4(general1, general2, general3 , general4,battlefield, view)
-
+        battlefield = create_battlefield(all_units)
+        view = create_view(args, battlefield, [general1, general2, general3, general4])
+        battle = Battle4(general1, general2, general3, general4, battlefield, view)
         battle.start()
 
-    if args.command == 'multi':
-        print(f"Bataille avec l'IA {args.AI1},Joueur ID: {args.id_joueur}")
+    elif args.command == 'multi':
+        print(f"Bataille avec l'IA {args.AI1}, Joueur ID: {args.id_joueur}")
 
-        scenario_maker = ScenarioMaker(get_scenario(), args.AI1,id_joueur=args.id_joueur)
+        scenario_maker = ScenarioMaker(get_scenario(), args.AI1, id_joueur=args.id_joueur)
         data = scenario_maker.get_data()
 
         general1 = data.get("general1")
         all_units = data.get("all_units")
 
-
-        battlefield = Battlefield(COLS, ROWS, all_units, generate_heightmap(COLS, ROWS))
-
-        if args.terminal:
-            view = Console(battlefield)
-        else:
-            view = GUI(battlefield, [general1], VIEW_ELEVATION)
-
-        battle = BattleMulti(general1, battlefield, view,args.id_joueur)
-
-
+        battlefield = create_battlefield(all_units)
+        view = create_view(args, battlefield, [general1])
+        battle = BattleMulti(general1, battlefield, view, args.id_joueur)
         battle.start()
