@@ -1,4 +1,3 @@
-
 import json
 import sys
 import os
@@ -10,11 +9,35 @@ if SRC_DIR not in sys.path:
 from model.Unit import Unit
 from model.Battlefield import Battlefield
 
+VALID_UNIT_TYPES = {'K', 'C', 'P'}
+
+def is_action_possible(data: dict, battlefield: Battlefield) -> bool:
+    required_fields = {"uid", "hp", "x", "y", "type"}
+    if not required_fields.issubset(data.keys()):
+        print(f"[REJETÉ] Champs manquants : {required_fields - data.keys()}")
+        return False
+    if data["type"] not in VALID_UNIT_TYPES:
+        print(f"[REJETÉ] Type invalide : '{data['type']}'")
+        return False
+    if data["hp"] < 0:
+        print(f"[REJETÉ] HP négatif : {data['hp']}")
+        return False
+    if not battlefield.is_valid_position((data["x"], data["y"])):
+        print(f"[REJETÉ] Position hors limites : ({data['x']}, {data['y']})")
+        return False
+    uid = data["uid"]
+    if uid in battlefield.troupes:
+        if data["hp"] > battlefield.troupes[uid].hp:
+            print(f"[REJETÉ] Guérison réseau : hp_reçu={data['hp']} > hp_actuel={battlefield.troupes[uid].hp}")
+            return False
+    return True
+
+
 def update(data_list, battlefield: Battlefield):
     while data_list:
         data = data_list.pop(0)
-
-
+        if not is_action_possible(data, battlefield):
+            continue
         if data["type"] == 'K':
             data["name"] = "Knight"
             data["type_attack"] = "Melee"
@@ -27,8 +50,7 @@ def update(data_list, battlefield: Battlefield):
             data["attack_delay"] = 0
             data["reload_time"] = 1.8
             data["accuracy"] = 1
-
-        elif data["type"] == 'C':
+        if data["type"] == 'C':
             data["name"] = "Crossbowman"
             data["type_attack"] = "Pierce"
             data["attack"] = 5
@@ -40,8 +62,7 @@ def update(data_list, battlefield: Battlefield):
             data["attack_delay"] = 0
             data["reload_time"] = 5
             data["accuracy"] = 0.85
-
-        elif data["type"] == 'P':
+        if data["type"] == 'P':
             data["name"] = "Pikeman"
             data["type_attack"] = "Melee"
             data["attack"] = 4
@@ -53,40 +74,22 @@ def update(data_list, battlefield: Battlefield):
             data["attack_delay"] = 0
             data["reload_time"] = 3
             data["accuracy"] = 1
-
-        else:
-         
-            continue
-
         uid = data["uid"]
-
         if uid not in battlefield.troupes:
-            if data["hp"] > 0:
+            if data["hp"] != 0:
                 battlefield.troupes[uid] = Unit(
-                    data["uid"],
-                    data["name"],
-                    data["type"],
-                    data["hp"],
-                    data["type_attack"],
-                    data["attack"],
-                    data["armor"],
-                    data["pierce_armor"],
-                    data["range"],
-                    data["line_of_sight"],
-                    data["speed"],
-                    data["attack_delay"],
-                    data["reload_time"],
-                    data["accuracy"],
-                    (data["x"], data["y"])
+                    data["uid"], data["name"], data["type"], data["hp"],
+                    data["type_attack"], data["attack"], data["armor"],
+                    data["pierce_armor"], data["range"], data["line_of_sight"],
+                    data["speed"], data["attack_delay"], data["reload_time"],
+                    data["accuracy"], (data["x"], data["y"])
                 )
         else:
             if data["hp"] < battlefield.troupes[uid].hp:
                 battlefield.troupes[uid].hp = data["hp"]
-
             if battlefield.troupes[uid].line_of_sight == 0:
                 if (battlefield.troupes[uid].position[0] != data["x"]
                         or battlefield.troupes[uid].position[1] != data["y"]):
                     battlefield.troupes[uid].position = (data["x"], data["y"])
-
-            if uid in battlefield.troupes and battlefield.troupes[uid].hp <= 0:
+            if battlefield.troupes[uid].hp <= 0:
                 battlefield.remove_unit(uid)
