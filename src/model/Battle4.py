@@ -58,7 +58,7 @@ class Battle4:
     # ===================================================================
     #                           MAIN SIMULATION
     # ===================================================================
-    def start(self,is_tourney=False):
+    def start(self):
         """
         Executes the main simulation loop.
 
@@ -161,35 +161,6 @@ class Battle4:
 
                     if self.view:
                         self.view.set_winner(self.winner)
-
-                if is_tourney:
-                    if repr(self.general1.strategy) == repr(self.general2.strategy) and repr(self.general1.strategy) == "Braindead":
-                        print("Braindead VS Braindead. Declaring draw.")
-                        self.winner = None
-                        running = False
-                 # === Stalemate / timeout detection ===
-
-                    frames += 1
-                    # Check alive counts and detect lack of progress
-                    alive1 = self.general1.get_unit_alive_number(self.battlefield)
-                    alive2 = self.general2.get_unit_alive_number(self.battlefield)
-                    if alive1 == prev_alive1 and alive2 == prev_alive2:
-                        no_change_frames += 1
-                    else:
-                        no_change_frames = 0
-                        prev_alive1, prev_alive2 = alive1, alive2
-
-                        #If not change for a long time -> declare draw and stop
-                    if no_change_frames >= max_no_change_frames:
-                        print("Stalemate detected (no unit change). Declaring draw.")
-                        self.winner = None
-                        running = False
-
-                        # Absolute timeout in headless mode
-                    if max_frames is not None and frames >= max_frames:
-                        print("Match timeout reached. Declaring draw.")
-                        self.winner = None
-                        running = False
 
                 if self.collectStats:
                     i += 1
