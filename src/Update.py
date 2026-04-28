@@ -92,8 +92,7 @@ def update(data_list, battlefield: Battlefield):
                     data["attack_delay"],
                     data["reload_time"],
                     data["accuracy"],
-                    (data["x"], data["y"]),
-                    data["property"] = False
+                    (data["x"], data["y"])
                 )
         else:
             if data["hp"] < battlefield.troupes[uid].hp:
