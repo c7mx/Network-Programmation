@@ -72,7 +72,7 @@ if __name__ == '__main__':
             )
 
         battle = Battle(*generals, battlefield, view)
-        battle.start()
+    
 
    
     elif args.command == 'run4':
@@ -92,7 +92,7 @@ if __name__ == '__main__':
         battlefield, view = setup_environment(args, generals, all_units)
 
         battle = Battle4(*generals, battlefield, view)
-        battle.start()
+  
 
     
     elif args.command == 'multi':
@@ -109,4 +109,4 @@ if __name__ == '__main__':
         battlefield, view = setup_environment(args, generals, all_units)
 
         battle = BattleMulti(*generals, battlefield, view, args.id_joueur)
-        battle.start()
+    battle.start()
