@@ -3,7 +3,6 @@ import json
 import sys
 import os
 
-# Absolute path of src directory
 SRC_DIR = os.path.dirname(os.path.abspath(__file__))
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
@@ -15,7 +14,7 @@ def update(data_list, battlefield: Battlefield):
     while data_list:
         data = data_list.pop(0)
 
-        # BUG 1 FIXED : if → elif pour éviter de tester les 3 types à chaque fois
+
         if data["type"] == 'K':
             data["name"] = "Knight"
             data["type_attack"] = "Melee"
@@ -56,7 +55,7 @@ def update(data_list, battlefield: Battlefield):
             data["accuracy"] = 1
 
         else:
-            # Type inconnu : on ignore ce message
+         
             continue
 
         uid = data["uid"]
@@ -89,6 +88,5 @@ def update(data_list, battlefield: Battlefield):
                         or battlefield.troupes[uid].position[1] != data["y"]):
                     battlefield.troupes[uid].position = (data["x"], data["y"])
 
-            # BUG 2 FIXED : un seul remove_unit, protégé par un 'in' pour éviter KeyError
             if uid in battlefield.troupes and battlefield.troupes[uid].hp <= 0:
                 battlefield.remove_unit(uid)
