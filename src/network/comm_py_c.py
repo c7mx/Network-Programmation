@@ -21,6 +21,11 @@ def send_data(sock, uid, hp, x, y, type=None):
     data = j.create_json(uid, hp, x, y, type)
     sock.send(data.encode())
 
+def send_Property(sock , Req, uid, ETAT, Post_local):
+    data = j.create_jsonbis(Req, uid, ETAT, Post_local)
+    sock.send(data.encode())
+
+
 def receive_data(sock):
     ready, _, _ = select.select([sock], [], [], 0)  # 0 = non bloquant
 
