@@ -31,6 +31,7 @@ class BattleMulti:
         self.logger = None
         self.frame_count = 0
         self.id_joueur = id_joueur
+        self.players = [id_joueur]
 
         if datafile:
             self.logger = Logger(datafile)
@@ -81,7 +82,23 @@ class BattleMulti:
             # ------------------ Simulation ------------------
             if not self.paused and self.winner is None:
 
-                
+                for unit in list(self.battlefield.troupes.values()):
+                    id = unit.id // 1000
+                    if not (id in self.players):
+                        self.players.append(id)
+                        
+                        sock = NetPy.connect_sock_send()
+                        for unit in list(self.battlefield.troupes.values()):
+                            if unit.id // 1000 == self.id_joueur
+                                NetPy.send_data(
+                                    sock,
+                                    unit.id,
+                                    unit.hp,
+                                    unit.position[0],
+                                    unit.position[1],
+                                    unit.symbol
+                                )
+                            
                 msg = NetPy.receive_data(sock)
 
                 if msg and msg.strip():
