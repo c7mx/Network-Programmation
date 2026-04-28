@@ -32,7 +32,6 @@ class Unit(ABC):
     reload_time: float              # Attack cooldown
     accuracy: float                 # Probability of successful hit
     position: tuple[float, float]   # (x, y)
-    property: bool
 
     current_order: str = None       # "move" or "attack"
     target_unit: "Unit" = None
@@ -126,77 +125,82 @@ class Unit(ABC):
         Execute movement toward target_pos.
         Includes slope speed penalties and basic lateral obstacle avoidance.
         """
-        if not self.target_pos:
-            self.current_order = None
+        if not self.property:
+            NetPy.ask_property()
             return
+        if self.property:
 
-        x, y = self.position
-        tx, ty = self.target_pos
+            if not self.target_pos:
+                self.current_order = None
+                return
 
-        # Direction vector
-        dir_x = tx - x
-        dir_y = ty - y
-        dist = math.hypot(dir_x, dir_y)
+            x, y = self.position
+            tx, ty = self.target_pos
 
-        if dist <= EPSILON:
-            # Already at destination
-            self.position = (tx, ty)
-            self.current_order = None
-            return
+            # Direction vector
+            dir_x = tx - x
+            dir_y = ty - y
+            dist = math.hypot(dir_x, dir_y)
 
-        # Normalize direction
-        dir_x /= dist
-        dir_y /= dist
+            if dist <= EPSILON:
+                # Already at destination
+                self.position = (tx, ty)
+                self.current_order = None
+                return
 
-        # Calculate tentative new position
-        step = self.speed * dt
-        new_x = x + dir_x * step
-        new_y = y + dir_y * step
+            # Normalize direction
+            dir_x /= dist
+            dir_y /= dist
 
-        # --- Adjust step for elevation ---
-        current_height = self.battlefield.get_height(x, y)
-        new_height = self.battlefield.get_height(new_x, new_y)
-        height_diff = new_height - current_height
-        
-        # Speed adjusted according to slope (slowing down on uphill slopes, no acceleration on downhill slopes)
-        if height_diff > 0:
-
-            slope_factor = 1 / (1 + height_diff)  # Simple model, can tune
-            step *= slope_factor
+            # Calculate tentative new position
+            step = self.speed * dt
             new_x = x + dir_x * step
             new_y = y + dir_y * step
 
-        new_pos = (new_x, new_y)
+            # --- Adjust step for elevation ---
+            current_height = self.battlefield.get_height(x, y)
+            new_height = self.battlefield.get_height(new_x, new_y)
+            height_diff = new_height - current_height
+            
+            # Speed adjusted according to slope (slowing down on uphill slopes, no acceleration on downhill slopes)
+            if height_diff > 0:
 
-                # Tentative directe
-        if self._try_move(new_pos):
-            return
+                slope_factor = 1 / (1 + height_diff)  # Simple model, can tune
+                step *= slope_factor
+                new_x = x + dir_x * step
+                new_y = y + dir_y * step
 
-        # === Lateral avoidance ===
-        # Perpendicular vector
-        perp_x = -dir_y
-        perp_y = dir_x
+            new_pos = (new_x, new_y)
 
-        # Intensity of avoidance
-        side_step = step * 0.7
+                    # Tentative directe
+            if self._try_move(new_pos):
+                return
 
-        # Left
-        left_pos = (
-            x + perp_x * side_step,
-            y + perp_y * side_step
-        )
+            # === Lateral avoidance ===
+            # Perpendicular vector
+            perp_x = -dir_y
+            perp_y = dir_x
 
-        if self._try_move(left_pos):
-            return
+            # Intensity of avoidance
+            side_step = step * 0.7
 
-        # Right
-        right_pos = (
-            x - perp_x * side_step,
-            y - perp_y * side_step
-        )
+            # Left
+            left_pos = (
+                x + perp_x * side_step,
+                y + perp_y * side_step
+            )
 
-        if self._try_move(right_pos):
-            return
+            if self._try_move(left_pos):
+                return
+
+            # Right
+            right_pos = (
+                x - perp_x * side_step,
+                y - perp_y * side_step
+            )
+
+            if self._try_move(right_pos):
+                return
 
     def _try_move(self, new_pos):
         """
