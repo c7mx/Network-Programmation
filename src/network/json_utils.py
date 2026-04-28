@@ -17,7 +17,7 @@ def create_jsonbis(Req, uid, ETAT, Post_local):
     data = {
         "Req": Req,
         "uid": uid,
-        "ETAT": ETAT,
+        "etat": etat,
         "Post_local": Post_local
     }
 
