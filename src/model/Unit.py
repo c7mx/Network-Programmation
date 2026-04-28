@@ -32,6 +32,7 @@ class Unit(ABC):
     reload_time: float              # Attack cooldown
     accuracy: float                 # Probability of successful hit
     position: tuple[float, float]   # (x, y)
+    property: bool
 
     current_order: str = None       # "move" or "attack"
     target_unit: "Unit" = None
