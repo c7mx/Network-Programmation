@@ -93,7 +93,7 @@ def update(data_list, battlefield: Battlefield):
                     data["reload_time"],
                     data["accuracy"],
                     (data["x"], data["y"]),
-                    data["property"] = false
+                    data["property"] = False
                 )
         else:
             if data["hp"] < battlefield.troupes[uid].hp:
