@@ -86,7 +86,7 @@ class UnitsFactory:
             "reload_time": s["reload_time"],
             "accuracy": s["accuracy"],
             "position": None,
-            "property":True
+            "property": True
         }
 
         # Instantiate and return the unit
