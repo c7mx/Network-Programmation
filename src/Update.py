@@ -34,16 +34,21 @@ def is_action_possible(data: dict, battlefield: Battlefield) -> bool:
 
 
 def update(data_list, battlefield: Battlefield):
-    if "Req" in data:
-        if(data["property"]):
-            data["property"]= False
+    while data_list:
+        data = data_list.pop(0)
 
-    elif "Ask" in data and uid // 1000 == Post_Local:
-        data["property"]= True
-    
-    else: 
-        while data_list:
-            data = data_list.pop(0)
+        if "Req" in data:
+            post_local = data["Post_Local"]
+            if (battlefield.troupes[post_local*1000 + 1].line_of_sight != 0):
+                uid = data["uid"]
+                battlefield.troupes[uid].property = True
+
+        elif "Ask" in data:
+            if(uid in battlefield.troupes and battlefield.troupes[uid].property):
+                uid = data["uid"]
+                battlefield.troupes[uid].property = False
+        
+        else: 
             if not is_action_possible(data, battlefield):
                 continue
             if data["type"] == 'K':
