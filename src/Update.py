@@ -52,8 +52,8 @@ def update(data_list, battlefield: Battlefield):
             uid = data["uid"]
             if(uid in battlefield.troupes and battlefield.troupes[uid].property):
                 battlefield.troupes[uid].property = False
-                sock = NetPy.connect_sock_send()
-                NetPy.send_Property("Req", data["uid"], data["Post_local"])
+                sockp = NetPy.connect_sock_send()
+                NetPy.send_Property(sockp, "Req", data["uid"], None, data["Post_local"])
                 
         
         else: 
