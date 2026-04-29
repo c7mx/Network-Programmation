@@ -8,6 +8,8 @@ if SRC_DIR not in sys.path:
 
 from model.Unit import Unit
 from model.Battlefield import Battlefield
+import src.network.comm_py_c as NetPy
+import src.network.json_utils as j
 
 VALID_UNIT_TYPES = {'K', 'C', 'P'}
 
@@ -38,6 +40,7 @@ def update(data_list, battlefield: Battlefield):
         data = data_list.pop(0)
 
         if "Req" in data:
+            print("Req")
             post_local = data["Post_Local"]
             if (battlefield.troupes[post_local*1000 + 1].line_of_sight != 0):
                 uid = data["uid"]
@@ -45,9 +48,13 @@ def update(data_list, battlefield: Battlefield):
                     battlefield.troupes[uid].property = True
 
         elif "Ask" in data:
+            print("Ask")
             uid = data["uid"]
             if(uid in battlefield.troupes and battlefield.troupes[uid].property):
                 battlefield.troupes[uid].property = False
+                sock = NetPy.connect_sock_send()
+                NetPy.send_Property("Req", data["uid"], data["Post_local"])
+                
         
         else: 
             if not is_action_possible(data, battlefield):
