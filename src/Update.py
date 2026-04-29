@@ -117,5 +117,3 @@ def update(data_list, battlefield: Battlefield):
                     if (battlefield.troupes[uid].position[0] != data["x"]
                             or battlefield.troupes[uid].position[1] != data["y"]):
                         battlefield.troupes[uid].position = (data["x"], data["y"])
-                if battlefield.troupes[uid].hp <= 0:
-                    battlefield.remove_unit(uid)
