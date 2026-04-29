@@ -129,8 +129,8 @@ class Unit(ABC):
         if not self.property:
             NetPy.ask_property()
             return
-        if self.property:
-
+            
+        else:
             if not self.target_pos:
                 self.current_order = None
                 return
@@ -242,8 +242,8 @@ class Unit(ABC):
         if not self.property:
             NetPy.ask_property()
             return
-        if self.property:
-
+            
+        else:
             if not self.target_pos:
                 self.current_order = None
                 return
