@@ -41,11 +41,12 @@ def update(data_list, battlefield: Battlefield):
             post_local = data["Post_Local"]
             if (battlefield.troupes[post_local*1000 + 1].line_of_sight != 0):
                 uid = data["uid"]
-                battlefield.troupes[uid].property = True
+                if(uid in battlefield.troupes):
+                    battlefield.troupes[uid].property = True
 
         elif "Ask" in data:
+            uid = data["uid"]
             if(uid in battlefield.troupes and battlefield.troupes[uid].property):
-                uid = data["uid"]
                 battlefield.troupes[uid].property = False
         
         else: 
