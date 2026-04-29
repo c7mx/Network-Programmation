@@ -1,13 +1,33 @@
 import json
 
-def create_json(uid, hp, x, y, type=None):
-    data = {
-        "uid": uid,
-        "hp": hp,
-        "x": x,
-        "y": y,
-        "type" : type
-    }
+def create_json(uid, type, hp=None, x=None, y=None):
+    
+    if hp and x and y:
+        data = {
+            "uid": uid,
+            "hp": hp,
+            "x": x,
+            "y": y,
+            "type" : type
+        }
+    
+    elif hp:
+        data = {
+            "uid": uid,
+            "hp": hp,
+            "type" : type
+        }
+
+    elif x and y:
+        data = {
+            "uid": uid,
+            "x": x,
+            "y": y,
+            "type" : type
+        }
+
+    else:
+        return ""
 
     msg = json.dumps(data)  # dict → string JSON
 
