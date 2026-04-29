@@ -238,6 +238,15 @@ class Unit(ABC):
     # ------------------------------------------------------------------
     def _update_attack(self, dt):
         """Handle attack state: monitor target status and trigger attacks when ready."""
+        
+        if not self.property:
+            NetPy.ask_property()
+            return
+        if self.property:
+
+            if not self.target_pos:
+                self.current_order = None
+                return
         target = self.target_unit
         if not target or not target.is_alive() or not target.position:
             self.current_order = None
