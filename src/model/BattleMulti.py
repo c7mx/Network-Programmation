@@ -89,7 +89,7 @@ class BattleMulti:
                         
                         sock = NetPy.connect_sock_send()
                         for unit in list(self.battlefield.troupes.values()):
-                            if unit.id // 1000 == self.id_joueur
+                            if unit.id // 1000 == self.id_joueur:
                                 NetPy.send_data(
                                     sock,
                                     unit.id,
