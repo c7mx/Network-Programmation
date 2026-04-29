@@ -13,7 +13,7 @@ def create_json(uid, hp, x, y, type=None):
 
     return msg
 
-def create_jsonbis(Req, uid, ETAT, Post_local):
+def create_jsonbis(Req, uid, etat, Post_local):
     data = {
         "Req": Req,
         "uid": uid,
