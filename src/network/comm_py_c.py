@@ -25,6 +25,14 @@ def send_Property(sock , Req, uid, etat, Post_local):
     data = j.create_jsonbis(Req, uid, etat, Post_local)
     sock.send(data.encode())
 
+def ask_property(sock, uid, Post_local):
+    Req = "ASK_PROPERTY"
+    etat = None
+    data = j.create_jsonbis(Req, uid, etat, Post_local)
+    sock.send(data.encode())
+    response = sock.recv(1024).decode()
+    return j.load_json(response)
+
 
 def receive_data(sock):
     ready, _, _ = select.select([sock], [], [], 0)  # 0 = non bloquant
