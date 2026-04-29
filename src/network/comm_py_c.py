@@ -17,8 +17,8 @@ def connect_sock_recv():
     python_c_socket.bind((C_HOST, PY_PORT))
     return python_c_socket
 
-def send_data(sock, uid, hp, x, y, type=None):
-    data = j.create_json(uid, hp, x, y, type)
+def send_data(sock, uid, type, hp=None, x=None, y=None):
+    data = j.create_json(uid, type, hp, x, y)
     sock.send(data.encode())
 
 def send_Property(sock , Req, uid, etat, Post_local):
