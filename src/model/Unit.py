@@ -244,7 +244,7 @@ class Unit(ABC):
             return
             
         else:
-            if not self.target_pos:
+            if not self.target_unit:
                 self.current_order = None
                 return
         target = self.target_unit
