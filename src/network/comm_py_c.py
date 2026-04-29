@@ -29,9 +29,6 @@ def ask_property(sock, Ask, uid, Post_local):
     etat = None
     data = j.create_jsonbisbis(Ask, uid, etat, Post_local)
     sock.send(data.encode())
-    response = sock.recv(1024).decode()
-    return j.load_json(response)
-
 
 
 def receive_data(sock):
