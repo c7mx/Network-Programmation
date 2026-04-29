@@ -127,7 +127,8 @@ class Unit(ABC):
         Includes slope speed penalties and basic lateral obstacle avoidance.
         """
         if not self.property:
-            NetPy.ask_property()
+            sock = NetPy.connect_sock_send()
+            NetPy.ask_property(sock, "Ask", self.id, self.id//1000)
             return
             
         else:
@@ -240,22 +241,24 @@ class Unit(ABC):
         """Handle attack state: monitor target status and trigger attacks when ready."""
         
         if not self.property:
-            NetPy.ask_property()
-            return
-            
-        else:
-            if not self.target_unit:
+            sock = NetPy.connect_sock_send()
+            NetPy.ask_property(sock, "Ask", self.id, self.id//1000)
+        if not self.target_unit.property:
+            sock = NetPy.connect_sock_send()
+            NetPy.ask_property(sock, "Ask",self.target_unit.id,self.target_unit.id//1000)
+        if self.property and self.target_unit.property:
+            if not self.target_pos:
                 self.current_order = None
                 return
-        target = self.target_unit
-        if not target or not target.is_alive() or not target.position:
-            self.current_order = None
-            self.target_unit = None
-            return
-        # In range → attack when cooldown ready
-        if self.attack_delay <= 0:
-            self._try_attack(target)
-            self.attack_delay = self.reload_time
+            target = self.target_unit
+            if not target or not target.is_alive() or not target.position:
+                self.current_order = None
+                self.target_unit = None
+                return
+            # In range → attack when cooldown ready
+            if self.attack_delay <= 0:
+                self._try_attack(target)
+                self.attack_delay = self.reload_time
 
     def _try_attack(self, target):
         """Execute an attack roll and apply damage if the hit is successful."""
