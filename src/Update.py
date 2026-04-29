@@ -8,8 +8,8 @@ if SRC_DIR not in sys.path:
 
 from model.Unit import Unit
 from model.Battlefield import Battlefield
-import src.network.comm_py_c as NetPy
-import src.network.json_utils as j
+import network.comm_py_c as NetPy
+import network.json_utils as j
 
 VALID_UNIT_TYPES = {'K', 'C', 'P'}
 
