@@ -4,7 +4,6 @@ import network.json_utils as j
 
 C_HOST = "127.0.0.1"
 C_PORT = 1040
-
 PY_PORT = 1030
 
 def connect_sock_send():
@@ -22,7 +21,7 @@ def send_data(sock, uid, hp, x, y, type=None):
     sock.send(data.encode())
 
 def receive_data(sock):
-    ready, _, _ = select.select([sock], [], [], 0)  # 0 = non bloquant
+    ready, _, _ = select.select([sock], [], [], 0)  # 0 (Non-Blocking)
 
     if ready:
         response = sock.recv(1024)
