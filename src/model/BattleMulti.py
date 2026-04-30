@@ -21,7 +21,7 @@ proc = subprocess.Popen(["./network/comm_c_c"])
 
 class BattleMulti:
 
-    def __init__(self, general: General, battlefield: Battlefield, view: View = None, datafile: str = None,id_joueur: str =None):
+    def __init__(self, general: General, battlefield: Battlefield, view: View = None, datafile: str = None, player_id: str =None):
         self.battlefield = battlefield
         self.general = general
         self.winner = None
@@ -30,8 +30,8 @@ class BattleMulti:
         self.view = view
         self.logger = None
         self.frame_count = 0
-        self.id_joueur = id_joueur
-        self.players = [id_joueur]
+        self.player_id = player_id
+        self.players = [player_id]
 
         if datafile:
             self.logger = Logger(datafile)
@@ -47,7 +47,7 @@ class BattleMulti:
 
         self.speed = HEADLESS_SPEEDUP if not self.view else 1
 
-    # ===================================================================
+
     def start(self, is_tourney=False):
 
         axis_x = []
@@ -89,7 +89,7 @@ class BattleMulti:
                         
                         sock2 = NetPy.connect_sock_send()
                         for unit in list(self.battlefield.troupes.values()):
-                            if unit.id // 1000 == self.id_joueur:
+                            if unit.id // 1000 == self.player_id:
                                 NetPy.send_data(
                                     sock2,
                                     unit.id,
@@ -125,13 +125,12 @@ class BattleMulti:
 
         return self.winner
 
-    # ===================================================================
+
     def handle_event(self):
 
         if not self.view or not hasattr(self.view, 'screen'):
             return
 
-        
         reporter = GameSnapshotReporter(self.general, self.general, self.battlefield)
 
         keys = pygame.key.get_pressed()
@@ -186,7 +185,7 @@ class BattleMulti:
         elif keys[pygame.K_F4] and self.view:
             self.view.show_info_pannel()
 
-    # ===================================================================
+
     def _apply_loaded_battle(self, loaded_battle):
         self.general = loaded_battle.general
         self.battlefield = loaded_battle.battlefield
