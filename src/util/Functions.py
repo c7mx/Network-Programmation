@@ -83,25 +83,20 @@ def create_parser():
     parser = argparse.ArgumentParser(description='AI Battle Simulator')
     subparsers = parser.add_subparsers(dest='command', required=True)
 
-    run_p = subparsers.add_parser('run', help='Run a battle between two AIs')
-
-    run_p.add_argument('AI1', help='First AI name')
-    run_p.add_argument('AI2', help='Second AI name')
-    run_p.add_argument('-t', '--terminal', action='store_true', help='Display output in terminal')
-
     run4_p = subparsers.add_parser('run4', help='Run a battle between two AIs')
 
     run4_p.add_argument('AI1', help='First AI name')
     run4_p.add_argument('AI2', help='Second AI name')
     run4_p.add_argument('AI3', help='Third AI name')
     run4_p.add_argument('AI4', help='Fourth AI name')
+    run4_p.add_argument('--player_id', type=str, required=True, help="Player ID")
     run4_p.add_argument('-t', '--terminal', action='store_true', help='Display output in terminal')
 
     multi_p = subparsers.add_parser('multi', help='Initialisation of one AI for multi mode')
 
-    multi_p.add_argument('AI1', help='First AI name')
+    multi_p.add_argument('AI', help='AI name')
+    multi_p.add_argument('--player_id', type=str, required=True, help="Player ID")
     multi_p.add_argument('-t', '--terminal', action='store_true', help='Display output in terminal')
-    multi_p.add_argument('--id_joueur', type=str, required=True, help="ID du joueur")
 
     return parser
 
@@ -259,6 +254,7 @@ def readStatsFromFile(filepath: str):
                 "accuracy": float(parts[11])
             }
     return stats
+
 
 def get_max_hp(unit_type):
     """
