@@ -99,11 +99,14 @@ class BattleMulti:
                                     unit.symbol
                                 )
                             
-                msg = NetPy.receive_data(sock)
+                while True:
+                    msg = NetPy.receive_data(sock)
+                    if not msg:
+                            break
 
-                if msg and msg.strip():
-                    data = j.load_json(msg)
-                    data_list.append(data)
+                    if msg and msg.strip():
+                        data = j.load_json(msg)
+                        data_list.append(data)
 
                 update(data_list, self.battlefield)
 
