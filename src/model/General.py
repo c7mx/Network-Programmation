@@ -3,7 +3,7 @@ class General:
     Represent a general who control its units.
     """
 
-    def __init__(self, name, general_id, strategy,id_joueur=None) -> None:
+    def __init__(self, name, general_id, strategy, player_id = None) -> None:
         """
         Initialise general.
 
@@ -24,13 +24,15 @@ class General:
         if not isinstance(name, str) or not name.strip():
             raise ValueError("General name must be a non-empty string.")
         self.name = name
-        self.id_joueur=id_joueur
+        self.player_id = player_id
         self.id = general_id  # Use to filter units for its army (< 1000 ou >= 1000)
         self.strategy = strategy
+
 
     # ==========================================================
     #                   UNIT ACCESS 
     # ==========================================================
+
     def get_my_units(self, battlefield):
         """
         Dynamic recover of general's unit in battlefield.
@@ -38,8 +40,8 @@ class General:
         Recover unit in camp [(ID-1)*1000, ID*1000[
         """
 
-        lower_bound = (self.id+int(self.id_joueur)- 1) * 1000
-        upper_bound = (self.id+int(self.id_joueur))* 1000
+        lower_bound = (self.id+int(self.player_id)- 1) * 1000
+        upper_bound = (self.id+int(self.player_id))* 1000
 
         # Global filter of unit dictionary
         return [
@@ -51,6 +53,7 @@ class General:
     # ==========================================================
     #                   MAIN BEHAVIOR LOOP
     # ==========================================================
+
     def play(self, battlefield):
         """
         Executes the general's strategy for one simulation step.
@@ -67,6 +70,7 @@ class General:
         """
         # Ask the strategy to decide the next actions for this frame
         self.strategy.play(self, battlefield)
+
 
     # ==========================================================
     #                   STATISTICS
@@ -105,18 +109,22 @@ class General:
 
         return stats
 
+
     # ==========================================================
     #                   UNIT ALIVE NUMBER
     # ==========================================================
+
     def get_unit_alive_number(self, battlefield):
         """
         Count the number of alive units.
         """
         return len(self.get_my_units(battlefield))
 
+
     # ==========================================================
     #                   DEFEATED DETECTION
     # ==========================================================
+
     def is_defeated(self, battlefield):
         """
         Detect if the army is defeated.
@@ -124,6 +132,7 @@ class General:
         if self.get_unit_alive_number(battlefield) == 0:
             return True
         return False
+
 
     def __repr__(self):
         return f"General {self.name} (ID Group: {self.id})"
