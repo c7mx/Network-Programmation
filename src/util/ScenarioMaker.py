@@ -4,11 +4,12 @@ from util.UnitsFactory import UnitsFactory
 from util.Functions import create_strategy
 
 class ScenarioMaker:
-    def __init__(self, scenario, ia1Name, ia2Name=None,id_joueur=None):
+
+    def __init__(self, scenario, ia1Name, ia2Name=None, player_id=None):
         self.scenario = scenario
         self.ia1Name = ia1Name
         self.ia2Name = ia2Name
-        self.id_joueur = id_joueur
+        self.player_id = player_id
 
         self.units_factory = UnitsFactory()
         self.all_units = {}
@@ -18,6 +19,7 @@ class ScenarioMaker:
         self.create_positions()
         self.create_units()
         self.general1, self.general2 = self.create_generals()
+
 
     def create_positions(self):
         start_line = self.scenario["startLine"]
@@ -91,10 +93,11 @@ class ScenarioMaker:
                             unit_idx += 1
                 current_col_2 += nb_cols
 
+
     def create_units(self):
         # Using a set to avoid duplicate technical keys
         unit_keys = ["Crossbowman", "Pikeman", "Knight"]
-        unit_id = int(self.id_joueur)*1000
+        unit_id = int(self.player_id)*1000
 
         for unit_type in unit_keys:
             # Army 1
@@ -112,16 +115,18 @@ class ScenarioMaker:
                 self.all_units[id_2] = u2
                 unit_id += 1
 
+
     def create_generals(self):
         strat1 = create_strategy(self.ia1Name)
-        general1 = General("General1", 1, strat1,self.id_joueur)
+        general1 = General("General1", 1, strat1,self.player_id)
 
         general2 = None
         if self.ia2Name:
             strat2 = create_strategy(self.ia2Name)
-            general2 = General("General2", 2, strat2,self.id_joueur)
+            general2 = General("General2", 2, strat2,self.player_id)
 
         return general1, general2
+
 
     def get_data(self):
         return {"general1": self.general1, "general2": self.general2, "all_units": self.all_units}
