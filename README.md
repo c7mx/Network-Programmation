@@ -28,15 +28,8 @@ Make sure you are in the `src` directory and use one of the following commands:
 
 ### Test a multi battle
 ```bash
-python3 Main.py multi <AI1> --id_joueur <ID>
-python3 Main.py multi Smart --id_joueur 0
-
-```
-
-### Run a single battle
-```bash
-python3 Main.py run <AI1> <AI2> [-t]
-python3 Main.py run Smart Daft
+python3 Main.py multi <AI> --player_id <ID>
+python3 Main.py multi Smart --player_id 0
 
 ```
 
